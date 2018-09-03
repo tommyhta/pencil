@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pencil</title>
+    {% include 'mainapp/cdns.html' %}
+    <style>
+        table{
+            width:80%!important;
+            margin: auto;
+        }
+        form{
+            display: inline-block;
+        }
+        #modalName{
+            margin-left: 100px;
+            font-weight: 700;
+        }
+        div.space{
+            margin-top: 100px;
+            height:50px;
+        }
+        .search{
+            margin: 20px;
+            
+        }
+        div.tablecontainer{
+            height: 300px;
+            overflow: scroll;
+        }
+
+    </style>
+    <script>
+    $(document).ready(function(){
+    });
+    </script>
+</head>
+<body>
+    <div class="container">
+        {% include 'mainapp/navbar.html' %}
+        <section class="mt-5">   
+            <div class="space">
+                    {% for message in messages %}
+                    {% if 'cantdothat' in message.tags %}
+                        <span class="small text-danger ml-3 float-right ">{{message}}</span>
+                    {% endif %}
+                    {% endfor %}
+                    {% for message in messages %}
+                    {% if 'done' in message.tags %}
+                        <span class="small text-success ml-3 float-right ">{{message}}</span>
+                    {% endif %}
+                    {% endfor %}
+            </div>
+            <form action="/adminsearch" method="post">
+                {% csrf_token %}
+                <input id="searchName"class="form-control search" type="text" name="searchadmin" placeholder="Search">
+            </form>
+            <script>
+                $('#searchName').keyup(function(){
+                    $.ajax({
+                        url: '/adminsearch',
+                        method: 'post',
+                        data: $(this).parent().serialize(),
+                        success: function(serverResponse){
+                            $('#table').html(serverResponse)
+                        }
+                    })
+                })          
+            </script>
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Full Name</th>
+                        <th>email</th>
+                        <th>Created At</th>
+                        <th>User Type</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="table">
+                    <tr>
+                        {% for i in users %}
+                        <td><a class="text-primary" href="/user/{{i.id}}">{{i.first_name}} {{i.last_name}}</a></td>
+                        <td>{{i.email}}</td>
+                        <td>{{i.created_at}}</td>
+                        <td>
+                            {% if i.user_level == 9 %}
+                            Super Admin
+                            {% endif %}
+                            {% if i.user_level == 7 %}
+                            Admin
+                            {% endif %}
+                            {% if i.user_level == 5 %}
+                            Staff
+                            {% endif %}
+                            {% if i.user_level == 1 %}
+                            Standard
+                            {% endif %}
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#change{{i.id}}">Change User Type</button>
+                            <div class="modal fade" id="change{{i.id}}">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Changing User Type</h5>
+                                            <button class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>                                               
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="/changetype" method="post">
+                                                {% csrf_token%}
+                                                <input type="hidden" name="userID" value="{{i.id}}">
+                                                <select name="type">
+                                                    {% if request.session.user == 9 %}
+                                                    <option value="1">Standard User</option>
+                                                    <option value="5">Staff</option>
+                                                    <option value="7">Admin</option>
+                                                    {% endif %}
+                                                    {% if request.session.user == 7 %}
+                                                    <option value="1">Standard User</option>
+                                                    <option value="5">Staff</option>
+                                                    {% endif %}
+                                                </select>
+                                            
+                                                <input class="btn btn-primary btn-sm" type="submit" value="Change User Type">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <button class="btn btn-sm btn-dark" data-toggle="modal" data-target="#delete{{i.id}}">delete</button>
+                            <div class="modal fade" id="delete{{i.id}}">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Delete Confirmation</h5>
+                                            <button class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>                                               
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Are you sure you want to delete user:</p>
+                                            <p id="modalName">{{i.first_name}} {{i.last_name}}</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <form action="/deleteuser" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="userID" value="{{i.id}}">
+                                                <input type="submit" class="btn btn-dark" value="Delete">
+                                            </form>                                           
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>          
+        </section>
+    </div>
+</body>
+</html>
+

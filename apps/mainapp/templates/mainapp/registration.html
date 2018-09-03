@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pencil</title>
+    {% include 'mainapp/cdns.html' %}
+    <style>
+            .popover-body {
+                padding: 10px;
+                font-size: 12px;
+                margin-top: 10px;
+            }
+            .container{
+                margin-top: 80px;
+            }
+        </style>
+</head>
+<body>
+    {% include 'mainapp/navbar.html' %}
+    <div class="container">
+        <h1>Welcome!</h1>
+        <div class="row">   
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Registration</h3>
+                        <form action="/register" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="first_name">First Name:</label>
+                                {% for message in messages %}
+                                    {% if 'first_name' in message.tags %}
+                                        <span class="small text-danger ml-3 float-right ">{{message}}</span>
+                                    {% endif %}
+                                {% endfor %}
+                                <input type="text" class="form-control" name="first_name" placeholder="First Name">
+                            </div>
+                            <div class="form-group">
+                                <label for="last_name">Last Name:</label>
+                                {% for message in messages %}
+                                    {% if 'last_name' in message.tags %}
+                                        <span class="small text-danger ml-3 float-right ">{{message}}</span>
+                                    {% endif %}
+                                {% endfor %}
+                                <input type="text" class="form-control" name="last_name" placeholder="Last Name">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">email:</label>
+                                {% for message in messages %}
+                                    {% if 'email' in message.tags %}
+                                        <span class="small text-danger ml-3 float-right ">{{message}}</span>
+                                    {% endif %}
+                                {% endfor %}
+                                <input type="text" class="form-control" name="email" placeholder="email">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password:</label>
+                                {% for message in messages %}
+                                    {% if 'password' in message.tags %}
+                                        <span class="small text-danger ml-3 float-right ">{{message}}</span>
+                                    {% endif %}
+                                {% endfor %}
+                                <input type="password" class="form-control" name="password" placeholder="Password" data-toggle="popover" data-trigger="key" data-placement="right" data-html="true"
+                                data-content="
+                                <ul>
+                                    <li>Password must be at least 8 characters</li>
+                                    <li>Password must contain 1 uppercase letter</li>
+                                    <li>Password must contain a number</li>
+                                </ul>
+                                ">
+                            </div>
+                            <script>
+                            $('[data-toggle="popover"').popover();
+                            </script>
+                            <div class="form-group">
+                                <label for="confirm">Password confirmation:</label>
+                                {% for message in messages %}
+                                    {% if 'confirm' in message.tags %}
+                                        <span class="small text-danger ml-3 float-right ">{{message}}</span>
+                                    {% endif %}
+                                {% endfor %}
+                                <input type="password" class="form-control" name="confirm" placeholder="Confirm password">
+                            </div>
+                            <button type="submit" class="btn btn-dark float-right">Register</button>
+                        </form>
+                    </div>
+                </div>
+            </div>        
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Login</h3>
+                        <form action="/login" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="emaillogin">Email</label>
+                                {% for message in messages %}
+                                    {% if 'log' in message.tags %}
+                                        <span class="small text-danger ml-3 float-right ">{{message}}</span>
+                                    {% endif %}
+                                {% endfor %}
+                                <input type="text" name="emaillogin" class="form-control" placeholder="email">
+                            </div>
+                            <div class="form-group">
+                                <label for="key">Password</label>
+                                {% for message in messages %}
+                                    {% if 'key' in message.tags %}
+                                        <span class="small text-danger ml-3 float-right ">{{message}}</span>
+                                    {% endif %}
+                                {% endfor %}
+                                <input type="password" name="key" class="form-control" placeholder="Password">
+                            </div>
+                            <button class="btn btn-dark float-right">Login</button>
+                            {% for message in messages %}
+                                {% if 'bad' in message.tags %}
+                                    <span class="small text-danger ml-3 ">{{message}}</span>
+                                {% endif %}
+                            {% endfor %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+</script>
+</body>
+</html>

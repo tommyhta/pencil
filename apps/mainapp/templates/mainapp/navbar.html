@@ -1,0 +1,24 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="/"><img class="logo" src="{% static 'mainapp/images/penlogowhite.png'%}" alt="Pencil logo"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar">
+    </div>
+    <div>
+        {% if 'userID' not in request.session %}
+        <a href="/login" class="btn btn-sm btn-secondary">Your Account</a>
+        {% endif %}
+        {% if 'name' in request.session %}
+        <span class="h6 text-light m-0">Hello, <a class="text-light" href="/user/{{request.session.userID}}">{{request.session.name}}</a>  |  </span>
+        <a href="/logout" class="btn btn-sm btn-dark">Log out</a>
+        {% endif %}
+        {% if request.session.user > 4 %}
+        <a href="/staff" class="btn btn-sm btn-secondary">Dashboard</a>
+        {% endif %}
+        {% if request.session.user > 6 %}
+        <a href="/admins" class="btn btn-sm btn-secondary">Admin</a>
+        {% endif %}
+    </div>
+</nav>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pencil</title>
+    {% include 'mainapp/cdns.html' %}
+    <style>
+        div.container{
+            height: 3000px;
+        }
+        .buy{
+            font-weight: 700;
+        }
+        div.intro{
+            text-align: center;
+            padding: 10px;
+        }
+        div.intro h2, h4{
+            margin: 0 auto 0;;
+            line-height: 1.2;
+            font-weight: 800;
+        }
+        div.intro h4{
+            margin-top: 80px;
+            margin-bottom: 20px;
+            color:#1F1F1F;
+        }
+        div.intro h2{
+            font-size: 50px;
+        }
+        div.img{
+            height:400px;
+            margin-top: 70px;
+        }
+        img#pencil_main{
+            margin-top: 50px; 
+            width: 400px;
+            /* transform: rotate(-15deg); */
+        }
+        div.features div{
+            height: 150px;
+            border-top: 2px solid black;
+        }
+        div.f1 p{
+            font-size: 22px;
+        }
+        div.models{
+            text-align: center;
+        }
+       
+        span.bold{
+            font-weight: 700;
+            font-size: 20px;
+        }
+        .faade{
+            opacity:0;
+            transform: translateY(30px);
+            transition: all 1s ease-in-out;
+        }
+        .comeout{
+            opacity:1;
+            transform:translateY(0px);
+        }
+        .faaade{
+            opacity:0;
+            transform: translateX(30px);
+            transition: all 1s ease-in-out;
+        }
+        .comeoutt{
+            opacity:1;
+            transform:translateX(0px);
+        }
+
+    </style>
+    <script>
+    $(document).ready(function(){
+        var scrollThis = $('.scroll');
+        scrollThis.click(function(e){
+            e.preventDefault();
+            $('body,html').animate({
+                scrollTop : $(this.hash).offset().top-75
+            }, 1000)
+        })
+    
+        
+        $(window).scroll(function(){
+            var wScroll=$(this).scrollTop();
+            // console.log(wScroll)
+            if(wScroll < 300){  
+                $('#pencil_main').css({
+                    'transform' : 'rotate('+wScroll/2 +'deg)'
+                });
+            };
+            if(wScroll > $('.models').offset().top-700){
+                $('.faaade').addClass('comeoutt');
+            }; 
+            scrollThis.each(function(){
+                var scrollThis = $('.scroll');
+                var offset = $(this.hash).offset().top-200
+                if(offset <= wScroll){
+                    $(this).parent().addClass('active');
+                    $(this).parent().siblings().removeClass('active');
+                };
+            });
+
+        });
+        $('.faade').each(function(){
+            $('.faade').addClass('comeout');
+        });
+
+       
+    });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+                <a class="navbar-brand" href="/"><img class="logo" src="{% static 'mainapp/images/penlogowhite.png'%}" alt="Pencil logo"></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbar">
+                <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link scroll" href="#features">Features</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link scroll" href="#models">Models</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link scroll" href="#technologies">Technologies</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active buy" href="#">Buy</a>
+                </li>
+            </ul>
+            <div>
+                {% if 'userID' not in request.session %}
+                <a href="/registration" class="btn btn-sm btn-secondary">Your Account</a>
+                {% endif %}
+                {% if 'name' in request.session %}
+                <span class="h6 text-light m-0">Hello, <a class="text-light" href="/user/{{request.session.userID}}">{{request.session.name}}</a>  |  </span>
+                <a href="/logout" class="btn btn-sm btn-dark">Log out</a>
+                {% endif %}
+                {% if request.session.user > 4 %}
+                <a href="/staff" class="btn btn-sm btn-secondary">Dashboard</a>
+                {% endif %}
+                {% if request.session.user > 6 %}
+                <a href="/admins" class="btn btn-sm btn-secondary">Admin</a>
+                {% endif %}
+            </div>
+        </nav>
+        <div class="intro">
+            <h4 class="faade">Pencil Pro</h4>
+            <h2 class="faade">More Ideas.</h2>
+            <h2 class="faade">More Ergonomic.</h2>
+            <h2 class="faade">More Pro.</h2>
+            <div class="img" id="features">
+                <img id="pencil_main" src="{% static 'mainapp/images/pencil.png' %}" alt="pencil main">
+            </div>
+        </div>
+        <div class="row features" >
+            <div class="f1 col-lg-4 offset-lg-1">
+                <p>New Graphite v2 made witht the finest mix for durability and flexibility.</p>
+            </div>
+            <div class="f1 col-lg-4 offset-lg-2">
+                <p>New Wood coming from the finest tree grown in the United State.</p>
+            </div>
+        </div>
+        <div class="row features1">
+            <div class="f1 col-lg-4 offset-lg-1">
+                <p>Up to 2 years of heavy usage*</p>
+            </div>
+            <div class="f1 col-lg-4 offset-lg-2">
+                <p>Slick and ergonomic design makes you want to continue using</p>
+            </div>
+        </div>
+        <div class="models" id="models">
+            <img class="faaade " src="{% static 'mainapp/images/pencilMods.png' %}" alt="pencil main">
+ 
+            <div class="row">
+                <p class="faaade col-lg-4 offset-lg-2 penS"><span class="bold">Standard model</span> - 5.5 inches, 22.2 grams</p>
+                <p class="faaade col-lg-4 penL"><span class="bold">XL model</span> - 8 inches, 27grams</p>
+            </div>
+        </div>
+        <div class="technologies" id="technologies">
+
+        </div>
+    </div>
+</body>
+</html>

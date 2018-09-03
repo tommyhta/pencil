@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pencil</title>
+    {% include 'mainapp/cdns.html' %}
+    <style>
+        div.profile{
+            width: 600px;
+            border: 1px solid black;
+            border-radius: 10px;
+  
+            margin: 100px auto;
+            padding: 20px;
+        }
+        h4{
+            margin-bottom: 20px;
+        }
+        p{
+            margin: 5px 5px 5px 50px;
+        }
+        div.button{
+            margin: 20px 5px 0 10px;
+        }
+
+    </style>
+    <script>
+    $(document).ready(function(){
+    });
+    </script>
+</head>
+<body>
+    <div class="container">
+        {% include 'mainapp/navbar.html' %}
+        <div class="profile">
+            <h4 class="text-capitalize">{{user.first_name}} {{user.last_name}}'s User Profile</h4>
+            <p>First Name: {{user.first_name}}</p>
+            <p>Last Name: {{user.last_name}}</p>
+            <p>Email Address: {{user.email}}</p>
+            {% if request.session.user > 1 %}
+            <p>User Type: 
+                {% if user.user_level == 9 %}
+                Super Admin
+                {% endif %}
+                {% if user.user_level == 7 %}
+                Admin
+                {% endif %}
+                {% if user.user_level == 5 %}
+                Staff
+                {% endif %}
+                {% if user.user_level == 1 %}
+                Standard User
+                {% endif %}
+            </p>
+            {% endif %}
+            <p>Profile Created On: {{user.created_at}}</p>
+            {% if user.id == request.session.userID %}
+            <div class="button">
+                <a href="/user/{{user.id}}/edit" class="btn btn-secondary">Edit Info</a>
+                <input type="submit" class="btn btn-secondary" value="Change Password">
+            </div>
+            {% else %}
+            <div class="button">
+                <input type="submit" class="btn btn-secondary" value="Send {{user.first_name}} a Message">
+            </div>
+            {% endif %}
+        </div>
+
+    </div>
+</body>
+</html>

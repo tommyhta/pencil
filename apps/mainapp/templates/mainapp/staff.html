@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pencil</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    {% include 'mainapp/cdns.html' %}
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <style>
+        div.addproduct{
+            margin-top: 100px;
+        }
+        td{
+            width: 150px;
+        }
+        input{
+            
+        }
+        textarea{
+            width: 199px;
+            resize: none;
+        }
+        .addbtn{
+            margin: 20px 0 0 280px;
+        }
+        .thumb{
+            height: 70px;
+        }
+        .desc{
+            width: 300px;
+        }
+        .btn-sm{
+            height: 25px;
+            padding: 3px 5px;
+            font-size: 12px!important;
+            margin: 0;
+        }
+        div.space{
+            margin-top: 100px;
+            height:50px;
+        }
+        .descCol{
+            overflow: hidden;
+            
+        }
+        .producttable{
+            height: 500px;
+            overflow: auto;
+        }
+    </style>
+    <script>
+    $(document).ready(function(){
+        $( function() {
+            $("#tabs").tabs();
+        } );
+    });
+    </script>
+</head>
+<body>
+    <div class="container">
+        {% include 'mainapp/navbar.html' %}
+        <div class="space">
+            {% for message in messages %}
+                {% if 'productupdate' in message.tags %}
+                    <span class="small text-success ml-3 float-right ">{{message}}</span>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div id="tabs" class="addproduct">
+            <ul>
+                <li><a href="#product">Products</a></li>
+                <li><a href="#addProd">Add Products</a></li>
+            </ul>
+            <div id="product">
+                <h3>All Products</h3>
+                <div class="producttable">
+                <table class="table table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Product</th>
+                            <th>Model</th>
+                            <th class="desc">Description</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                            <th>Quantity</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in products%}
+                        <tr>
+                            <td><img class="thumb" src="{% static 'mainapp/images/'%}{{i.image}}" alt="{{i.model}}'s image'"></td>
+                            <td> {{i.model}} </td>
+                            <td class = "descCol"> {{i.description}} </td>
+                            <td> ${{i.unit_price}} </td>
+                            <td> 
+                                {% if i.status == 1 %}
+                                Normal
+                                {% endif %}
+                                {% if i.status == 2 %}
+                                New
+                                {% endif %}
+                                {% if i.status == 3 %}
+                                On Sale
+                                {% endif %}
+                                {% if i.status == 4 %}
+                                Out Of Stock
+                                {% endif %}
+                            </td>
+                            <td> {{i.quantity}} </td>
+                            <td>
+                                <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#editProduct{{i.id}}">Edit</button>
+                                <div class="modal fade" id="editProduct{{i.id}}">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5>Edit {{i.model}}</h5>
+                                                <button class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>       
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="/editproduct" method="post">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="product" value="{{i.id}}">
+                                                    <table>
+                                                        <tr>
+                                                            <td><label for="model">Model:</label></td>
+                                                            <td><input type="text" name="model" value="{{i.model}}"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><label for="description">Description:</label></td>
+                                                            <td><textarea name="description">{{i.description}}</textarea></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><label for="price">Unit Price:</label></td>
+                                                            <td><input type="number" name="price" step="0.01" value="{{i.unit_price}}"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><label for="status">Product Status</label></td>
+                                                            <td>
+                                                                <select name="status">
+                                                                    <option value="1">Normal</option>
+                                                                    <option value="2">New</option>
+                                                                    <option value="3">On Sale</option>
+                                                                    <option value="4">Out Of Stock</option>
+                                                                </select>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><label for="quantity">Quantity:</label></td>
+                                                            <td><input type="number" name="quantity" value="{{i.quantity}}"></td>
+                                                        </tr>
+                                                    </table>                                                    
+                                                    <button class="float-right btn btn-secondary">Update</button>                                                 
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button class="btn btn-dark btn-sm" data-toggle="modal" data-target="#deleteProduct{{i.id}}">Delete</button>
+                                <div class="modal fade" id="deleteProduct{{i.id}}">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5>Delete Confirmation</h5>
+                                                <button class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>    
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Are you you want to delete product model: {{i.model}}</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <form action="/deleteproduct" method="post">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="product" value="{{i.id}}">
+                                                    <input type="submit" class="btn btn-dark" value="Delete">
+                                                </form>               
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+            </div>
+            <div id="addProd">
+                <h3>Add New Product</h3>
+                <form action="/addproduct" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                    <table>
+                        <tr>
+                            <td><label for="model">Model:</label></td>
+                            <td><input type="text" name="model"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="description">Description:</label></td>
+                            <td><textarea name="description"></textarea></td>
+                        </tr>
+                        <tr>
+                            <td><label for="price">Unit Price:</label></td>
+                            <td><input type="number" name="price" step="0.01"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="status">Product Status</label></td>
+                            <td>
+                                <select name="status">
+                                    <option value="1">Normal</option>
+                                    <option value="2">New</option>
+                                    <option value="3">On Sale</option>
+                                    <option value="4">Out Of Stock</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="quantity">Quantity:</label></td>
+                            <td><input type="number" name="quantity"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="image">Image:</label></td>
+                            <td><input type="file" name="image" accept="image/*"></td>
+                        </tr>
+                     
+                        
+                    </table>
+                    <button class="addbtn btn btn-secondary">Submit</button>
+                </form>
+            </div>
+               
+        </div>
+    </div>
+</body>
+</html>

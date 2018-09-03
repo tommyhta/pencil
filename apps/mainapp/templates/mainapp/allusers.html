@@ -1,0 +1,84 @@
+
+{% for i in users %}
+    <tr>
+        <td><a class="text-primary" href="/user/{{i.id}}">{{i.first_name}} {{i.last_name}}</a></td>
+        <td>{{i.email}}</td>
+        <td>{{i.created_at}}</td>
+        <td>
+            {% if i.user_level == 9 %}
+            Super Admin
+            {% endif %}
+            {% if i.user_level == 7 %}
+            Admin
+            {% endif %}
+            {% if i.user_level == 5 %}
+            Staff
+            {% endif %}
+            {% if i.user_level == 1 %}
+            Standard
+            {% endif %}
+        </td>
+        <td>
+            <button class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#change{{i.id}}">Change User Type</button>
+            <div class="modal fade" id="change{{i.id}}">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Changing User Type</h5>
+                            <button class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>                                               
+                        </div>
+                        <div class="modal-body">
+                            <form action="/changetype" method="post">
+                                {% csrf_token%}
+                                <input type="hidden" name="userID" value="{{i.id}}">
+                                <select name="type">
+                                    {% if request.session.user == 9 %}
+                                    <option value="1">Standard User</option>
+                                    <option value="5">Staff</option>
+                                    <option value="7">Admin</option>
+                                    {% endif %}
+                                    {% if request.session.user == 7 %}
+                                    <option value="1">Standard User</option>
+                                    <option value="5">Staff</option>
+                                    {% endif %}
+                                </select>
+                            
+                                <input class="btn btn-primary btn-sm" type="submit" value="Change User Type">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <button class="btn btn-sm btn-dark" data-toggle="modal" data-target="#delete{{i.id}}">delete</button>
+            <div class="modal fade" id="delete{{i.id}}">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Delete Confirmation</h5>
+                            <button class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>                                               
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure you want to delete user:</p>
+                            <p id="modalName">{{i.first_name}} {{i.last_name}}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <form action="/deleteuser" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="userID" value="{{i.id}}">
+                                <input type="submit" class="btn btn-dark" value="Delete">
+                            </form>                                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>
+{% endfor %}
+
