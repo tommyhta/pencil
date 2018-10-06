@@ -51,6 +51,11 @@
             height: 500px;
             overflow: auto;
         }
+        .inline{
+            display: inline-block;
+            vertical-align: top;
+            margin: 10px;
+        }
     </style>
     <script>
     $(document).ready(function(){
@@ -195,46 +200,50 @@
                 </div>
             </div>
             <div id="addProd">
-                <h3>Add New Product</h3>
-                <form action="/addproduct" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                    <table>
-                        <tr>
-                            <td><label for="model">Model:</label></td>
-                            <td><input type="text" name="model"></td>
-                        </tr>
-                        <tr>
-                            <td><label for="description">Description:</label></td>
-                            <td><textarea name="description"></textarea></td>
-                        </tr>
-                        <tr>
-                            <td><label for="price">Unit Price:</label></td>
-                            <td><input type="number" name="price" step="0.01"></td>
-                        </tr>
-                        <tr>
-                            <td><label for="status">Product Status</label></td>
-                            <td>
-                                <select name="status">
-                                    <option value="1">Normal</option>
-                                    <option value="2">New</option>
-                                    <option value="3">On Sale</option>
-                                    <option value="4">Out Of Stock</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><label for="quantity">Quantity:</label></td>
-                            <td><input type="number" name="quantity"></td>
-                        </tr>
-                        <tr>
-                            <td><label for="image">Image:</label></td>
-                            <td><input type="file" name="image" accept="image/*"></td>
-                        </tr>
-                     
-                        
-                    </table>
-                    <button class="addbtn btn btn-secondary">Submit</button>
-                </form>
+                <div class="inline">
+                    <h3>Add New Product</h3>
+                    <form action="/addproduct" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                        <table>
+                            <tr>
+                                <td><label for="model">Model:</label></td>
+                                <td><input type="text" name="model"></td>
+                            </tr>
+                            <tr>
+                                <td><label for="description">Description:</label></td>
+                                <td><textarea name="description"></textarea></td>
+                            </tr>
+                            <tr>
+                                <td><label for="price">Unit Price:</label></td>
+                                <td><input type="number" name="price" step="0.01"></td>
+                            </tr>
+                            <tr>
+                                <td><label for="status">Product Status</label></td>
+                                <td>
+                                    <select name="status">
+                                        <option value="1">Normal</option>
+                                        <option value="2">New</option>
+                                        <option value="3">On Sale</option>
+                                        <option value="4">Out Of Stock</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label for="quantity">Quantity:</label></td>
+                                <td><input type="number" name="quantity"></td>
+                            </tr>                        
+                            <tr>
+                                <td><label for="image">Image:</label></td>
+                                <td><input type="file" name="image" accept="image/*"></td>
+                            </tr>
+                         
+                            
+                        </table>
+                        <button class="addbtn btn btn-secondary">Submit</button>
+                    </form>
+                </div>
+       
+
             </div>
                
         </div>

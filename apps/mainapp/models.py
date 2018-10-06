@@ -64,6 +64,23 @@ class Product(models.Model):
     unit_price = models.DecimalField(max_digits=8, decimal_places=2)
     status = models.IntegerField()
     quantity = models.IntegerField()
+    orders = models.ManyToManyField(User, through="OrderDetail", related_name="orders")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+class OrderDetail(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity_purchased = models.IntegerField()
+    order_status = models.IntegerField()
+    total = models.DecimalField(max_digits=8, decimal_places=2)
+
+
+
+
+
+
+
+
+
 
