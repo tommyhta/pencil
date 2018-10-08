@@ -21,12 +21,12 @@
             
         }
         textarea{
-            width: 199px;
+            width: 170px;
             resize: none;
         }
-        .addbtn{
+        /* .addbtn{
             margin: 20px 0 0 280px;
-        }
+        } */
         .thumb{
             height: 70px;
         }
@@ -40,7 +40,8 @@
             margin: 0;
         }
         div.space{
-            margin-top: 100px;
+            margin-top: 50px;
+            padding-top:50px;
             height:50px;
         }
         .descCol{
@@ -55,6 +56,14 @@
             display: inline-block;
             vertical-align: top;
             margin: 10px;
+        }
+        p{
+            margin: 0;
+        }
+        .cats{
+            font-size: 14px;
+            margin: 0;
+            line-height: 0.8;
         }
     </style>
     <script>
@@ -89,6 +98,7 @@
                             <th>Product</th>
                             <th>Model</th>
                             <th class="desc">Description</th>
+                            <th>Categories</th>
                             <th>Price</th>
                             <th>Status</th>
                             <th>Quantity</th>
@@ -99,8 +109,13 @@
                         {% for i in products%}
                         <tr>
                             <td><img class="thumb" src="{% static 'mainapp/images/'%}{{i.image}}" alt="{{i.model}}'s image'"></td>
-                            <td> {{i.model}} </td>
+                            <td> {{i.model}}</td>
                             <td class = "descCol"> {{i.description}} </td>
+                            <td>
+                                {% for x in i.categories.all %}
+                                    <span class="cats">{{x.name}}, </span>
+                                {% endfor %}
+                            </td>
                             <td> ${{i.unit_price}} </td>
                             <td> 
                                 {% if i.status == 1 %}
@@ -116,9 +131,14 @@
                                 Out Of Stock
                                 {% endif %}
                             </td>
-                            <td> {{i.quantity}} </td>
+                            <td>
+                                <p>Available: {{i.quantity}}</p>
+                                <p>Total Sold: {{i.quantity_sold}}</p>
+                            </td>
                             <td>
                                 <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#editProduct{{i.id}}">Edit</button>
+
+
                                 <div class="modal fade" id="editProduct{{i.id}}">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
@@ -163,9 +183,10 @@
                                                     </table>                                                    
                                                     <button class="float-right btn btn-secondary">Update</button>                                                 
                                                 </form>
+                                                
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>    
                                 </div>
 
                                 <button class="btn btn-dark btn-sm" data-toggle="modal" data-target="#deleteProduct{{i.id}}">Delete</button>
@@ -240,6 +261,15 @@
                             
                         </table>
                         <button class="addbtn btn btn-secondary">Submit</button>
+                    </form>
+                </div>
+                <div class="inline">
+                    <h3>Add new Category</h3>
+                    <form action="/addCat" method="post">
+                        {% csrf_token %}
+                        <label for="category">Category:</label>
+                        <input type="text" name="category"><br>
+                        <button class="btn btn-secondary addbtn">Add</button>
                     </form>
                 </div>
        

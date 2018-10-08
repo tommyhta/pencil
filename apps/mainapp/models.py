@@ -53,9 +53,19 @@ class User(models.Model):
     email = models.CharField(max_length=100)
     user_level = models.IntegerField()
     password_hash = models.CharField(max_length=255)
+    address_line_1 = models.CharField(max_length=100, blank=True, null=True)
+    address_line_2 = models.CharField(max_length=100, blank=True, null=True)
+    city = models.CharField(max_length=50, blank=True, null=True)
+    state = models.CharField(max_length=2, blank=True, null=True)
+    zipcode = models.CharField(max_length=10, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects=UserManager()
+
+class Category(models.Model):
+    name = models.CharField(max_length=50)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 class Product(models.Model):
     model = models.CharField(max_length=20)
@@ -64,14 +74,18 @@ class Product(models.Model):
     unit_price = models.DecimalField(max_digits=8, decimal_places=2)
     status = models.IntegerField()
     quantity = models.IntegerField()
+    quantity_sold = models.IntegerField()
+    categories = models.ManyToManyField(Category, related_name="products")
     orders = models.ManyToManyField(User, through="OrderDetail", related_name="orders")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
 
 class OrderDetail(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity_purchased = models.IntegerField()
+    payment_status = models.BooleanField(default=False)
     order_status = models.IntegerField()
     total = models.DecimalField(max_digits=8, decimal_places=2)
 

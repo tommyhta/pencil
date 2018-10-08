@@ -23,5 +23,6 @@ urlpatterns = [
     url(r'^addproduct$', views.addproduct),
     url(r'^deleteproduct$', views.deleteproduct),
     url(r'^editproduct$', views.editproduct),
+    url(r'^addCat', views.addCategory)
 
 ]
