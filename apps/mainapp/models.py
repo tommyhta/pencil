@@ -47,6 +47,7 @@ class UserManager(models.Manager):
         return error            
 
 
+
 class User(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
@@ -54,7 +55,7 @@ class User(models.Model):
     user_level = models.IntegerField()
     password_hash = models.CharField(max_length=255)
     address_line_1 = models.CharField(max_length=100, blank=True, null=True)
-    address_line_2 = models.CharField(max_length=100, blank=True, null=True)
+    address_line_2 = models.CharField(max_length=100, default="")
     city = models.CharField(max_length=50, blank=True, null=True)
     state = models.CharField(max_length=2, blank=True, null=True)
     zipcode = models.CharField(max_length=10, blank=True, null=True)

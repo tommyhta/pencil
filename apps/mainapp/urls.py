@@ -17,6 +17,7 @@ urlpatterns = [
     url(r'^adminsearch$', views.adminsearch),
 
     url(r'^user/(?P<id>\d+)$', views.user, name="user"),
+    url(r'^user/(?P<id>\d+)/edit$', views.edituser),
 
 
     url(r'^staff$', views.staff),

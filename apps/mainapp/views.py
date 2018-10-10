@@ -154,7 +154,28 @@ def login(request):
 # ----------------------------------------END LOGIN AND REGISTRATION----------------------------------------
 def logout(request):
     request.session.clear()
-    return redirect("/")
+    return redirect("home")
+# ----------------------------------------USER EDIT----------------------------------------
+def edituser(request,id):
+    if request.method == "POST":
+        user = User.objects.get(id=id)
+        if request.session['userID'] != user.id:
+            request.session.clear()
+            return redirect("/breached")
+        else:
+            user.first_name = request.POST['first_name']
+            user.last_name = request.POST['last_name']
+            user.email = request.POST['email']
+            user.address_line_1 = request.POST['address_line_1']
+            user.address_line_2 = request.POST['address_line_2']
+            user.city = request.POST['city']
+            user.state = request.POST['state']
+            user.zipcode = request.POST['zipcode']
+            user.save()
+            return redirect('user', id=id)
+    else:
+        request.session.clear()
+        return redirect("/breached")
 
 # ----------------------------------------ADMIN FORM----------------------------------------
 
