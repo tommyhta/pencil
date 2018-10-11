@@ -9,14 +9,17 @@ import bcrypt
 # Create your views here.
 
 def index(request):
-
-    return render(request, "mainapp/index.html")
+    if 'cart' not in request.session:
+        request.session['cart'] = 0
+        return render(request, "mainapp/index.html")
+    else:
+        return render(request, "mainapp/index.html")
 
 def registration(request):
 
     return render(request, "mainapp/registration.html")
 
-def welcome(request):
+def store(request):
 
     return render(request,"mainapp/home.html")
 
@@ -163,19 +166,49 @@ def edituser(request,id):
             request.session.clear()
             return redirect("/breached")
         else:
-            user.first_name = request.POST['first_name']
-            user.last_name = request.POST['last_name']
-            user.email = request.POST['email']
-            user.address_line_1 = request.POST['address_line_1']
-            user.address_line_2 = request.POST['address_line_2']
-            user.city = request.POST['city']
-            user.state = request.POST['state']
-            user.zipcode = request.POST['zipcode']
-            user.save()
-            return redirect('user', id=id)
+            error = User.objects.updateInfoValidator(request.POST)
+            if len(error):
+                for key,value in error.items():
+                    messages.error(request, value, extra_tags=key)
+                return redirect('user', id=id)
+            else:
+                user.first_name = request.POST['first_name']
+                user.last_name = request.POST['last_name']
+                user.email = request.POST['email']
+                user.address_line_1 = request.POST['address_line_1']
+                user.address_line_2 = request.POST['address_line_2']
+                user.city = request.POST['city']
+                user.state = request.POST['state']
+                user.zipcode = request.POST['zipcode']
+                user.save()
+                messages.success(request,"You have successfully updated your information.", extra_tags="success")
+                return redirect('user', id=id)
     else:
         request.session.clear()
         return redirect("/breached")
+
+def changePW(request, id):
+    if request.method == "POST":
+        user = User.objects.get(id=id)
+        if request.session['userID'] != user.id:
+            request.session.clear()
+            return redirect("/breached")
+        else:
+            if bcrypt.checkpw(request.POST['password'].encode('utf-8'), user.password_hash.encode('utf-8')):
+                error = User.objects.updatePW(request.POST)
+                if len(error):
+                    for key,value in error.items():
+                        messages.error(request, value, extra_tags=key)
+                    return redirect('user', id=id)
+                else:
+                    pwhash = bcrypt.hashpw(request.POST['newPassword'].encode('utf-8'), bcrypt.gensalt())
+                    user.password_hash = pwhash
+                    user.save()
+                    messages.success(request,"You have successfully updated your password.", extra_tags="success")
+                    return redirect('user', id=id)
+            else:
+                messages.error(request,"Password is incorrect.", extra_tags="password")
+                return redirect('user', id=id)
 
 # ----------------------------------------ADMIN FORM----------------------------------------
 
@@ -239,6 +272,26 @@ def adminsearch(request):
     else: 
         request.session.clear()
         return redirect("/breached")
+
+
+# Allow admin to reset a user's password, currently, the password will reset to format: LastFirst0000
+def resetpassword(request):
+    if request.method == "POST":
+        user = User.objects.get(id = request.POST['userID'])
+        if user.user_level == 9:
+            messages.error(request,"You maynot perform this action.", extra_tags="cantdothat")
+            return redirect ("/admins")
+        else:
+            password = user.last_name.capitalize()+user.first_name.capitalize()+"0000"
+            pwhash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+            user.password_hash = pwhash
+            user.save()
+            messages.success(request,"You have successfully reset "+user.first_name+" "+user.last_name+"'s password.", extra_tags="done")
+            return redirect("/admins")
+    else: 
+        request.session.clear()
+        return redirect("/breached")
+
 
 # ----------------------------------------ADMIN FORM----------------------------------------
 # ----------------------------------------STAFF----------------------------------------

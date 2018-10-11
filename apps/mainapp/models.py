@@ -46,6 +46,41 @@ class UserManager(models.Manager):
             error['key'] = "Please enter your password."
         return error            
 
+    def updateInfoValidator(self, posted):
+        error = {}
+        if len(posted['first_name']) < 1:
+            error['first_name'] = "This field cannot be empty."
+        elif len(posted['first_name']) < 2:
+            error['first_name'] = "Name should be longer."
+        elif not str.isalpha(posted['first_name']):
+            error['first_name'] = "Name cannot contain numbers."
+        if len(posted['last_name']) < 1:
+            error['last_name'] = "This field cannot be empty."
+        elif len(posted['last_name']) < 2:
+            error['last_name'] = "Name should be longer."
+        elif not str.isalpha(posted['last_name']):
+            error['last_name'] = "Name cannot contain numbers."
+        if len(posted['email']) < 1:
+            error['email'] = "This field cannot be empty."
+        elif not email_regex.match(posted['email']):
+            error['email'] = "Please enter a valid email."
+        return error
+
+    def updatePW(self, posted):
+        error = {}
+        if len(posted['newPassword']) < 1:
+            error['newPassword'] = "This field cannot be empty."
+        elif len(posted['newPassword']) < 8:
+            error['newPassword'] = "Password must be at least 8 characters."
+        elif not re.search(r'[A-Z]+', posted['newPassword']):
+            error['newPassword'] = "Password must contain an uppercase letter."
+        elif not re.search(r'[0-9]+', posted['newPassword']):
+            error['newPassword'] = "Password must contain a number."
+        if len(posted['confirm']) < 1:
+            error['confirm'] = "This field cannot be empty."
+        elif posted['confirm'] != posted['newPassword']:
+            error['confirm'] = "Password confirmation must match password."
+        return error
 
 
 class User(models.Model):
@@ -54,11 +89,11 @@ class User(models.Model):
     email = models.CharField(max_length=100)
     user_level = models.IntegerField()
     password_hash = models.CharField(max_length=255)
-    address_line_1 = models.CharField(max_length=100, blank=True, null=True)
+    address_line_1 = models.CharField(max_length=100, default="")
     address_line_2 = models.CharField(max_length=100, default="")
-    city = models.CharField(max_length=50, blank=True, null=True)
-    state = models.CharField(max_length=2, blank=True, null=True)
-    zipcode = models.CharField(max_length=10, blank=True, null=True)
+    city = models.CharField(max_length=50, default="")
+    state = models.CharField(max_length=2, default="")
+    zipcode = models.CharField(max_length=10, default="")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects=UserManager()

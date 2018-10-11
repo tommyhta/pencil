@@ -5,15 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Pencil</title>
+    <title>Pencil - {{user.first_name}} {{user.last_name}}</title>
     {% include 'mainapp/cdns.html' %}
     <style>
         div.profile{
-            width: 600px;
+      
             border: 1px solid black;
             border-radius: 10px;
   
-            margin: 100px auto;
+    
             padding: 20px;
         }
         h4{
@@ -28,6 +28,24 @@
         .space{
             width: 150px;
         }
+        .small{
+            font-size: 11px;
+        }
+        .mospace{
+            width: 200px;
+        }
+        .pw{
+            width: 200px;
+        }
+        .pwmodal td{
+            font-size:12px;
+            height: 25px;
+        }
+        .message{
+            height: 30px;
+            margin-top: 80px;
+            margin-bottom: 10px;
+        }
 
     </style>
     <script>
@@ -38,7 +56,16 @@
 <body>
     <div class="container">
         {% include 'mainapp/navbar.html' %}
-        <div class="profile">
+        <div class="message">
+            {% for message in messages %}
+                {% if 'success' in message.tags %}
+                    <span class="text-success ml-3 float-right">{{message}}</span>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-sm-0"></div>
+        <div class="profile col-lg-6 col-sm-12">
             <h4 class="text-capitalize">{{user.first_name}} {{user.last_name}}'s User Profile</h4>
             <table>
                 <tr>
@@ -73,14 +100,12 @@
                 <tr>
                     <td valign="top">Addresss:</td>
                     <td>
-                        {% if user.address_line_1 %}
-                        {{user.address_line_1}} <br>
+                        {% if user.city %}            
+                            {{user.address_line_1}} <br>
+                        {% if user.address_line_2 %}
+                            {{user.address_line_2}} <br>                      
                         {% endif %}
-                        {% if user.address_line_1 %}
-                        {{user.address_line_2}} <br>
-                        {% endif %}
-                        {% if user.city %}
-                        {{user.city}}, {{user.state}} {{user.zipcode}}
+                            {{user.city}}, {{user.state}} {{user.zipcode}}   
                         {% endif %}
                     </td>
                 </tr>
@@ -110,14 +135,35 @@
                                         <tr>
                                             <td class="space">First name:</td>
                                             <td><input type="text" name="first_name" value="{{user.first_name}}"></td>
+                                            <td>
+                                                {% for message in messages %}
+                                                    {% if 'first_name' in message.tags %}
+                                                        <span class="small text-danger ml-3">{{message}}</span>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Last name:</td>
                                             <td><input type="text" name="last_name" value="{{user.last_name}}"></td>
+                                            <td>
+                                                {% for message in messages %}
+                                                    {% if 'last_name' in message.tags %}
+                                                        <span class="small text-danger ml-3">{{message}}</span>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Email Address:</td>
-                                            <td><input type="email" name="email" value="{{user.email}}"></td>
+                                            <td><input type="text" name="email" value="{{user.email}}"></td>
+                                            <td>
+                                                {% for message in messages %}
+                                                    {% if 'email' in message.tags %}
+                                                        <span class="small text-danger ml-3">{{message}}</span>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td valign="top">Address:</td>
@@ -129,6 +175,7 @@
                                         <tr>
                                             <td>City:</td>
                                             <td><input type="text" name="city" value="{{user.city}}"></td>
+                                            <td class="mospace"></td>
                                         </tr>
                                         <tr>
                                             <td>State:</td>
@@ -196,7 +243,6 @@
                                     <button class="btn mt-3 btn-secondary float-right">Update</button>
                                 </form>
                             </div>
-                          
                         </div>
                     </div>
                 </div>
@@ -213,15 +259,72 @@
                                 </button> 
                             </div>
                             <div class="modal-body">
-                                    <img width="250px" src="{% static 'mainapp/images/underConstruction.jpg' %}" alt="Under Construction">
+                                    <!-- <img width="250px" src="{% static 'mainapp/images/underConstruction.jpg' %}" alt="Under Construction"> -->
+                                <form action="/user/{{user.id}}/changepw" method="post">
+                                    {% csrf_token %}
+                                    <table class="pwmodal">
+                                        <tr>
+                                            <td class="pw">Current Password:</td>
+                                            <td><input type="password" name="password"></td>
+                                            <td class="mospace">
+                                                {% for message in messages %}
+                                                    {% if 'password' in message.tags %}
+                                                        <span class="small text-danger ml-3 float-right ">{{message}}</span>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>New Password:</td>
+                                            <td><input type="password" name="newPassword"></td>
+                                            <td>
+                                                {% for message in messages %}
+                                                    {% if 'newPassword' in message.tags %}
+                                                        <span class="small text-danger ml-3 float-right ">{{message}}</span>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>New Password Confirmation:</td>
+                                            <td><input type="password" name="confirm"></td>
+                                            <td>
+                                                {% for message in messages %}
+                                                    {% if 'confirm' in message.tags %}
+                                                        <span class="small text-danger ml-3 float-right ">{{message}}</span>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <button class="btn mt-3 btn-secondary float-right">Update</button>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div> 
+
+                {% for message in messages %}
+                    {% if 'first_name' in message.tags or 'last_name' in message.tags or 'email' in message.tags %}
+                        <script>
+                            $(function(){
+                                $('#changeinfo').modal({show:true});
+                            });
+                        </script> 
+                    {% endif %}
+                    {% if 'password' in message.tags or 'newPassword' in message.tags or 'confirm' in message.tags %}
+                        <script>
+                            $(function(){
+                                $('#changepw').modal({show:true});
+                            });
+                        </script>
+                    {% endif %}
+                {% endfor %}
+   
             </div>
             {% endif %}
         </div>
-
+        </div>
     </div>
 </body>
 </html>

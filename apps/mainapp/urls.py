@@ -8,16 +8,23 @@ urlpatterns = [
     url(r'^registration$', views.registration, name="reg"),
     url(r'^register$', views.register),
     url(r'^login$', views.login),
-    url(r'^welcome$', views.welcome),
     url(r'^logout$', views.logout),
+
     url(r'^breached$', views.breached),
+
     url(r'^admins$', views.admin),
     url(r'^changetype$',views.changetype),
     url(r'^deleteuser$', views.deleteuser),
     url(r'^adminsearch$', views.adminsearch),
+    url(r'^pwreset$', views.resetpassword),
+
+    
+    url(r'^store$', views.store),
+    
 
     url(r'^user/(?P<id>\d+)$', views.user, name="user"),
     url(r'^user/(?P<id>\d+)/edit$', views.edituser),
+    url(r'^user/(?P<id>\d+)/changepw', views.changePW),
 
 
     url(r'^staff$', views.staff),

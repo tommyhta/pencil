@@ -4,12 +4,14 @@
     <div class="collapse navbar-collapse" id="navbar">
     </div>
     <div>
+        <a href="/store" class="btn btn-sm btn-primary">Store</a>
+        <i class="fas fa-shopping-cart"></i><span class="badge badge-light">{{request.session.cart}}</span>
         {% if 'userID' not in request.session %}
-        <a href="/login" class="btn btn-sm btn-secondary">Your Account</a>
+        <a href="/registration"><i class="fas fa-user"></i></a>
         {% endif %}
         {% if 'name' in request.session %}
-        <span class="h6 text-light m-0">Hello, <a class="text-light" href="/user/{{request.session.userID}}">{{request.session.name}}</a>  |  </span>
-        <a href="/logout" class="btn btn-sm btn-dark">Log out</a>
+        <a href="/user/{{request.session.userID}}"><i class="fas fa-user"></i></a>
+        <a href="/logout"><i class="fas fa-sign-out-alt"></i></a>
         {% endif %}
         {% if request.session.user > 4 %}
         <a href="/staff" class="btn btn-sm btn-secondary">Dashboard</a>
