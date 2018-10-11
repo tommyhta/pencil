@@ -65,6 +65,14 @@
             margin: 0;
             line-height: 0.8;
         }
+        .catlist{
+            margin: 20px 10px 10px 10px;
+
+        }
+        .inlineF{
+            display: inline-block;
+            vertical-align:middle;
+        }
     </style>
     <script>
     $(document).ready(function(){
@@ -271,6 +279,23 @@
                         <input type="text" name="category"><br>
                         <button class="btn btn-secondary addbtn">Add</button>
                     </form>
+                    <div class="catlist">
+                        <h5>List of Categories</h5>
+                        <ul>
+                            {% for i in categories %}
+                                <li>
+                                    {{i.name}}
+                                    <form class="inlineF" action="/deleteCategory" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="catID" value="{{i.id}}">
+                                        <button class="close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>  
+                                    </form>
+                                </li>
+                            {%  endfor %}
+                        </ul>
+                    </div>
                 </div>
        
 

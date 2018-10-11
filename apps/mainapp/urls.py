@@ -20,7 +20,7 @@ urlpatterns = [
 
     
     url(r'^store$', views.store),
-    
+
 
     url(r'^user/(?P<id>\d+)$', views.user, name="user"),
     url(r'^user/(?P<id>\d+)/edit$', views.edituser),
@@ -31,6 +31,7 @@ urlpatterns = [
     url(r'^addproduct$', views.addproduct),
     url(r'^deleteproduct$', views.deleteproduct),
     url(r'^editproduct$', views.editproduct),
-    url(r'^addCat', views.addCategory)
+    url(r'^addCat', views.addCategory),
+    url(r'^deleteCategory$', views.deleteCategory)
 
 ]

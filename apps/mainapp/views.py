@@ -47,7 +47,8 @@ def staff(request):
                 return redirect('/breached')
             else:
                 context = {
-                    "products" : Product.objects.all()
+                    "products" : Product.objects.all(),
+                    "categories" : Category.objects.all()
                 }
                 return render(request,"mainapp/staff.html", context)
 
@@ -359,6 +360,16 @@ def addCategory(request):
             return redirect("/staff")
         else:
             return redirect("/staff")
+    else:
+        request.session.clear()
+        return redirect("/breached")
+
+def deleteCategory(request):
+    if request.method == "POST":
+        cat = Category.objects.get(id=request.POST['catID'])
+        cat.delete()
+        messages.success(request,"You have successfully deleted the category.", extra_tags="productupdate")
+        return redirect("/staff")
     else:
         request.session.clear()
         return redirect("/breached")
