@@ -1,0 +1,34 @@
+{% load static %}
+{%  for product in products %}
+            <div class="prod">
+                <i class="fas fa-search float-right" data-toggle="modal" data-target="#productDetail{{product.id}}"></i>
+                <h6>{{product.model}}</h6>
+                <div class="thumb">
+                    <img src="{% static 'mainapp/images/'%}{{product.image}}" alt="{{product.model}} image">
+                </div>
+                <p class="price">${{product.unit_price}}</p>
+            </div>
+
+            <div class="modal fade" id="productDetail{{product.id}}">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Product Description</h5>
+                            <button class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="inline imgage">
+                                <img src="{% static 'mainapp/images/'%}{{product.image}}" alt="{{product.model}} image">
+                            </div>
+                            <div class="inline details">
+                                <p><span class="bold">Model:</span> {{product.model}}</p>
+                                <p><span class="bold">Description:</span> {{product.description}}</p>
+                                <p><span class="bold">Price:</span> ${{product.unit_price}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            {% endfor %}

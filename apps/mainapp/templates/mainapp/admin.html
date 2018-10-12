@@ -9,7 +9,7 @@
     {% include 'mainapp/cdns.html' %}
     <style>
         table{
-            width:80%!important;
+            width:90%!important;
             margin: auto;
         }
         form{
@@ -60,7 +60,7 @@
             </div>
             <form action="/adminsearch" method="post">
                 {% csrf_token %}
-                <input id="searchName"class="form-control search" type="text" name="searchadmin" placeholder="Search">
+                <input id="searchName" class="form-control search" type="text" name="searchadmin" placeholder="Search">
             </form>
             <script>
                 $('#searchName').keyup(function(){

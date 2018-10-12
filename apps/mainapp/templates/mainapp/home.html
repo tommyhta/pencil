@@ -1,27 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Pencil - Store</title>
     {% include 'mainapp/cdns.html' %}
     <style>
+        *{
+            /* border: 1px dotted pink; */
+        }
         .img{
-            height: 300px;
-            margin: 57px auto 20px;
-            border: 1px solid pink;
+            margin-top: 57px;
+        }
+        .img img{
+            width: 100%;
+        }
+        .bold{
+            font-weight: 700;
+        }
+        .buttons{
+            text-align: center;
+            margin: 20px;
+        }
+        .buttons button{
+            font-weight: 900;
+            margin: 10px;
+        }
+        .products{
+            padding: 30px;
+            height:100vh;
+        }
+        .prod{
+            display: inline-block;
+            vertical-align: top;
+            width: 20%;
+            height: 200px;
+            border: 1px solid black;
+            margin: 20px;
+            padding: 20px;
+            box-shadow: 2px 2px silver;
+            border-radius: 3px;
+        }
+        .prod h6{
+            text-align: center;
+        }
+        .thumb{
+            width: 50%;
+            height: 100px;
+            margin: 5px auto;
+            
+        }
+        .thumb img{
+            max-width:100%;
+            max-height:100%;
+            margin: auto;
+        }
+        .price{
+            font-size: 15px;
+            color: #616161;
+        }
+        .fa-search{
+            cursor: pointer;
+        }
+        .inline{
+            display: inline-block;
+            vertical-align: top;
+    
+        }
+        .imgage{
+            width: 40%;
+        }
+        .imgage img{
+            width: 100%;
+        }
+        .details{
+            width: 55%;
+        }
+
+        @media only screen and (max-width: 600px){
+            .prod{
+                width: 90%;
+            }
+            .thumb{
+                height: 100px;
+            }
+            
         }
     </style>
 </head>
 <body>
+    <div class="img">
+        <img src="{% static 'mainapp/images/pencilbanner1.jpg' %}" alt="Pencil Banner">
+    </div>
     <div class="container">
         {% include 'mainapp/navbar.html' %}
-        <div class="img">
-            
+        <div class="buttons">
+            <button class="btn btn-secondary bold" id="searchall">All</button>    
+            <button class="btn btn-secondary bold" id="searchstandard">Standard</button>
+            <button class="btn btn-secondary bold" id="searchxl">XL</button>
+            <button class="btn btn-secondary bold" id="searchgoldmixed">Gold Graphite</button>
+            <button class="btn btn-secondary bold" id="searchaccessories">Accessories</button>
         </div>
-        
 
+        <script>
+            $('#searchstandard').click(function(){
+   
+                $.ajax({
+                    url:'/store/searchstandard',
+                    success: function(serverResponse){
+                        $('#products').html(serverResponse)
+                    }
+                })
+            });
+
+            $('#searchall').click(function(){
+                $.ajax({
+                    url:'/store/searchall',
+                    success: function(serverResponse){
+                        $('#products').html(serverResponse)
+                    }
+                })
+            });
+            $('#searchxl').click(function(){
+                $.ajax({
+                    url:'/store/searchxl',
+                    success: function(serverResponse){
+                        $('#products').html(serverResponse)
+                    }
+                })
+            });
+            $('#searchgoldmixed').click(function(){
+                $.ajax({
+                    url:'/store/searchgoldmixed',
+                    success: function(serverResponse){
+                        $('#products').html(serverResponse)
+                    }
+                })
+            });
+            $('#searchaccessories').click(function(){
+                $.ajax({
+                    url:'/store/searchaccessories',
+                    success: function(serverResponse){
+                        $('#products').html(serverResponse)
+                    }
+                })
+            });
+
+        </script>
+
+        <div class="products" id="products">
+            {%  for product in products %}
+            <div class="prod">
+                <i class="fas fa-search float-right" data-toggle="modal" data-target="#productDetail{{product.id}}"></i>
+                <h6>{{product.model}}</h6>
+                <div class="thumb">
+                    <img src="{% static 'mainapp/images/'%}{{product.image}}" alt="{{product.model}} image">
+                </div>
+                <p class="price">${{product.unit_price}}</p>
+            </div>
+
+            <div class="modal fade" id="productDetail{{product.id}}">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Product Description</h5>
+                            <button class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="inline imgage">
+                                <img src="{% static 'mainapp/images/'%}{{product.image}}" alt="{{product.model}} image">
+                            </div>
+                            <div class="inline details">
+                                <p><span class="bold">Model:</span> {{product.model}}</p>
+                                <p><span class="bold">Description:</span> {{product.description}}</p>
+                                <p><span class="bold">Price:</span> ${{product.unit_price}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            {% endfor %}
+        </div>
     </div>
     
 </body>

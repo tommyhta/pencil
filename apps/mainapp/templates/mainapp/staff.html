@@ -73,6 +73,10 @@
             display: inline-block;
             vertical-align:middle;
         }
+        .cat{
+            font-size: 14px;
+            margin: 0;
+        }
     </style>
     <script>
     $(document).ready(function(){
@@ -123,6 +127,54 @@
                                 {% for x in i.categories.all %}
                                     <span class="cats">{{x.name}}, </span>
                                 {% endfor %}
+
+                                <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#addCat{{i.id}}">Edit Category</button>
+
+                                <div class="modal fade" id="addCat{{i.id}}">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Add Categories for {{i.model}}</h5>
+                                                <button class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="inline">
+                                                    <form action="/staff/addcategory" method="post">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="product" value="{{i.id}}">
+                                                        <select name="category">
+                                                            {%  for y in categories %}
+                                                                <option value="{{y.id}}">{{y.name}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                        <button type="submit" class="btn btn-sm btn-secondary">Add</button>
+                                                    </form>
+                                                </div>
+                                                <div class="inline ml-5">
+                                                    <h5>Categories</h5>
+                                                    <ul class="cat">
+                                                        {% for x in i.categories.all %}
+                                                            <li>
+                                                                {{x.name}}
+                                                                <form class="inlineF" action="/staff/removeCat" method="post">
+                                                                    {% csrf_token %}
+                                                                    <input type="hidden" name="model" value="{{i.id}}">
+                                                                    <input type="hidden" name="catID" value="{{x.id}}">
+                                                                    <button class="close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>  
+                                                                </form>
+                                                            </li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </td>
                             <td> ${{i.unit_price}} </td>
                             <td> 
@@ -146,18 +198,17 @@
                             <td>
                                 <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#editProduct{{i.id}}">Edit</button>
 
-
                                 <div class="modal fade" id="editProduct{{i.id}}">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5>Edit {{i.model}}</h5>
+                                                <h5 class="modal-title">Edit {{i.model}}</h5>
                                                 <button class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>       
                                             </div>
                                             <div class="modal-body">
-                                                <form action="/editproduct" method="post">
+                                                <form action="/staff/editproduct" method="post">
                                                     {% csrf_token %}
                                                     <input type="hidden" name="product" value="{{i.id}}">
                                                     <table>
@@ -202,7 +253,7 @@
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5>Delete Confirmation</h5>
+                                                <h5 class="modal-title">Delete Confirmation</h5>
                                                 <button class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>    
@@ -212,7 +263,7 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <form action="/deleteproduct" method="post">
+                                                <form action="/staff/deleteproduct" method="post">
                                                     {% csrf_token %}
                                                     <input type="hidden" name="product" value="{{i.id}}">
                                                     <input type="submit" class="btn btn-dark" value="Delete">
@@ -231,7 +282,7 @@
             <div id="addProd">
                 <div class="inline">
                     <h3>Add New Product</h3>
-                    <form action="/addproduct" method="post" enctype="multipart/form-data">
+                    <form action="/staff/addproduct" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                         <table>
                             <tr>
@@ -273,7 +324,7 @@
                 </div>
                 <div class="inline">
                     <h3>Add new Category</h3>
-                    <form action="/addCat" method="post">
+                    <form action="/staff/addCat" method="post">
                         {% csrf_token %}
                         <label for="category">Category:</label>
                         <input type="text" name="category"><br>
@@ -285,7 +336,7 @@
                             {% for i in categories %}
                                 <li>
                                     {{i.name}}
-                                    <form class="inlineF" action="/deleteCategory" method="post">
+                                    <form class="inlineF" action="/staff/deleteCategory" method="post">
                                         {% csrf_token %}
                                         <input type="hidden" name="catID" value="{{i.id}}">
                                         <button class="close">

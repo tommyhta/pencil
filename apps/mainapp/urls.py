@@ -20,6 +20,11 @@ urlpatterns = [
 
     
     url(r'^store$', views.store),
+    url(r'^store/searchstandard$', views.searchstandard),
+    url(r'^store/searchxl$', views.searchxl),
+    url(r'^store/searchall$', views.searchall),
+    url(r'^store/searchgoldmixed$', views.searchgoldmixed),
+    url(r'^store/searchaccessories$', views.searchaccessories),
 
 
     url(r'^user/(?P<id>\d+)$', views.user, name="user"),
@@ -28,10 +33,12 @@ urlpatterns = [
 
 
     url(r'^staff$', views.staff),
-    url(r'^addproduct$', views.addproduct),
-    url(r'^deleteproduct$', views.deleteproduct),
-    url(r'^editproduct$', views.editproduct),
-    url(r'^addCat', views.addCategory),
-    url(r'^deleteCategory$', views.deleteCategory)
+    url(r'^staff/addproduct$', views.addproduct),
+    url(r'^staff/deleteproduct$', views.deleteproduct),
+    url(r'^staff/editproduct$', views.editproduct),
+    url(r'^staff/addCat', views.addCategory),
+    url(r'^staff/deleteCategory$', views.deleteCategory),
+    url(r'^staff/removeCat$', views.removeCat),
+    url(r'^staff/addcategory$', views.addCatToProduct),
 
 ]

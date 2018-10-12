@@ -16,12 +16,24 @@ def index(request):
         return render(request, "mainapp/index.html")
 
 def registration(request):
-
-    return render(request, "mainapp/registration.html")
+    if 'cart' not in request.session:
+        request.session['cart'] = 0
+        return render(request, "mainapp/registration.html")
+    else:
+        return render(request, "mainapp/registration.html")
 
 def store(request):
-
-    return render(request,"mainapp/home.html")
+    if 'cart' not in request.session:
+        request.session['cart'] = 0
+        context = {
+            "products": Product.objects.all()
+        }
+        return render(request,"mainapp/home.html", context)
+    else:
+        context = {
+            "products": Product.objects.all()
+        }
+        return render(request,"mainapp/home.html", context)
 
 def breached(request):
     return HttpResponse("You do not have permission to perform this action.")
@@ -95,6 +107,41 @@ def user(request,id):
             "user" : User.objects.get(id=id),
             }
             return render (request, "mainapp/user.html", context)
+
+# ----------------------------------------STORE SEARCHES----------------------------------------
+def searchstandard(request):
+    cat = Category.objects.get(name="Standard")
+    context = {
+        "products": Product.objects.filter(categories=cat)
+    }
+    return render (request, "mainapp/productsearch.html", context)
+
+def searchall(request):
+    context = {
+        "products": Product.objects.all()
+    }
+    return render(request, "mainapp/productsearch.html", context)
+    
+def searchxl(request):
+    cat = Category.objects.get(name="XL")
+    context = {
+        "products": Product.objects.filter(categories=cat)
+    }
+    return render (request, "mainapp/productsearch.html", context)
+
+def searchgoldmixed(request):
+    cat = Category.objects.get(name="Gold Graphite")
+    context = {
+        "products": Product.objects.filter(categories=cat)
+    }
+    return render (request, "mainapp/productsearch.html", context)
+
+def searchaccessories(request):
+    cat = Category.objects.get(name="Accessories")
+    context = {
+        "products": Product.objects.filter(categories=cat)
+    }
+    return render (request, "mainapp/productsearch.html", context)
 
 
 # ----------------------------------------LOGIN AND REGISTRATION----------------------------------------
@@ -369,6 +416,27 @@ def deleteCategory(request):
         cat = Category.objects.get(id=request.POST['catID'])
         cat.delete()
         messages.success(request,"You have successfully deleted the category.", extra_tags="productupdate")
+        return redirect("/staff")
+    else:
+        request.session.clear()
+        return redirect("/breached")
+
+def removeCat(request):
+    if request.method == "POST":
+        prod = Product.objects.get(id=request.POST['model'])
+        cat = Category.objects.get(id=request.POST['catID'])
+        prod.categories.remove(cat)
+        return redirect("/staff")
+    else:
+        request.session.clear()
+        return redirect("/breached")
+    
+def addCatToProduct(request):
+    if request.method == "POST":
+        prod = Product.objects.get(id=request.POST['product'])
+        cat = Category.objects.get(id=request.POST['category'])
+        prod.categories.add(cat)
+        prod.save()
         return redirect("/staff")
     else:
         request.session.clear()

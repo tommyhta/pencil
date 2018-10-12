@@ -51,7 +51,34 @@
                     </div>
                 </div>
             </div>
-
+            
+            <button class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#resetPW{{i.id}}">Reset PW</button>
+            <div class="modal fade" id="resetPW{{i.id}}">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Reset Password Confirmation</h5>
+                            <button class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>    
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure you want reset password for user:</p>
+                            <p id="modalName">{{i.first_name}} {{i.last_name}}</p>
+                            <p>This action will reset this user's password to LastFirst0000.</p>
+                            <p>For example: John Doe's password will be "DoeJohn0000"</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <form action="/pwreset" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="userID" value="{{i.id}}">
+                                <input type="submit" class="btn btn-dark" value="Reset Password">
+                            </form>                                           
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <button class="btn btn-sm btn-dark" data-toggle="modal" data-target="#delete{{i.id}}">delete</button>
             <div class="modal fade" id="delete{{i.id}}">
