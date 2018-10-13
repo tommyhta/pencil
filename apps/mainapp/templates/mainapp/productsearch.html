@@ -7,6 +7,11 @@
                     <img src="{% static 'mainapp/images/'%}{{product.image}}" alt="{{product.model}} image">
                 </div>
                 <p class="price">${{product.unit_price}}</p>
+                <form class="text-center" action="/store/addToCart" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="product" value="{{product.id}}">
+                    <button class="cartbtn btn btn-info btn-sm">Add to Cart</button>
+                </form>
             </div>
 
             <div class="modal fade" id="productDetail{{product.id}}">

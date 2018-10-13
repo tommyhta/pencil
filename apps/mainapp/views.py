@@ -10,21 +10,33 @@ import bcrypt
 
 def index(request):
     if 'cart' not in request.session:
-        request.session['cart'] = 0
+        request.session['cart'] = {
+            "count" : 0,
+            "sub_total" : 0,
+            "order" : []
+        }
         return render(request, "mainapp/index.html")
     else:
         return render(request, "mainapp/index.html")
 
 def registration(request):
     if 'cart' not in request.session:
-        request.session['cart'] = 0
+        request.session['cart'] = {
+            "count" : 0,
+            "sub_total" : 0,
+            "order" : []
+        }
         return render(request, "mainapp/registration.html")
     else:
         return render(request, "mainapp/registration.html")
 
 def store(request):
     if 'cart' not in request.session:
-        request.session['cart'] = 0
+        request.session['cart'] = {
+            "count" : 0,
+            "sub_total" : 0,
+            "order" : []
+        }
         context = {
             "products": Product.objects.all()
         }
@@ -33,9 +45,22 @@ def store(request):
         context = {
             "products": Product.objects.all()
         }
+        print("CART:", request.session['cart'])
         return render(request,"mainapp/home.html", context)
 
+def cart(request):
+    if 'cart' not in request.session:
+        request.session['cart'] = {
+            "count" : 0,
+            "sub_total" : 0,
+            "order" : []
+        }
+        return render(request,"mainapp/cart.html")
+    else:
+        return render(request,"mainapp/cart.html")
+
 def breached(request):
+    print("**********SECURITY BREACHED************")
     return HttpResponse("You do not have permission to perform this action.")
 
 
@@ -121,7 +146,7 @@ def searchall(request):
         "products": Product.objects.all()
     }
     return render(request, "mainapp/productsearch.html", context)
-    
+
 def searchxl(request):
     cat = Category.objects.get(name="XL")
     context = {
@@ -142,6 +167,7 @@ def searchaccessories(request):
         "products": Product.objects.filter(categories=cat)
     }
     return render (request, "mainapp/productsearch.html", context)
+
 
 
 # ----------------------------------------LOGIN AND REGISTRATION----------------------------------------
@@ -441,7 +467,43 @@ def addCatToProduct(request):
     else:
         request.session.clear()
         return redirect("/breached")
-# ----------------------------------------
 
+
+# ----------------------------------------STORE----------------------------------------
+def addToCart(request):
+    if request.method == "POST":
+        request.session.modified = True
+        product = Product.objects.get(id=request.POST['product'])
+        for i in request.session['cart']['order']:
+            if product.model == i['model']:
+                request.session['cart']['count']+=1
+                i['price']+=i['price']
+                i['quantity']+=1
+                i['total']= i['quantity']*i['price']
+                i['total']=round(i['total'],2)
+                request.session['cart']['sub_total']+=i['price']
+                request.session['cart']['sub_total'] = round(request.session['cart']['sub_total'],2)
+                messages.success(request,"Added to Cart.", extra_tags="addedtoCart")
+                return redirect("/store")
+        else:
+            price = float(product.unit_price)
+            request.session['cart']['count']+=1
+            request.session['cart']['sub_total']+=price
+            request.session['cart']['sub_total'] = round(request.session['cart']['sub_total'],2)
+            request.session['cart']['order'].append(
+                {
+                    "model": product.model,
+                    "image": product.image,
+                    "description": product.description,
+                    "price": price,
+                    "quantity": 1,
+                    "total": price
+                }
+            )
+            messages.success(request,"Added to Cart.", extra_tags="addedtoCart")
+            return redirect("/store")
+    else:
+        request.session.clear()
+        return redirect("/breached")
 
 

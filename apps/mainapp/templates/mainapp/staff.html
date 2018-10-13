@@ -179,7 +179,7 @@
                             <td> ${{i.unit_price}} </td>
                             <td> 
                                 {% if i.status == 1 %}
-                                Normal
+                                In Stock
                                 {% endif %}
                                 {% if i.status == 2 %}
                                 New
@@ -228,7 +228,7 @@
                                                             <td><label for="status">Product Status</label></td>
                                                             <td>
                                                                 <select name="status">
-                                                                    <option value="1">Normal</option>
+                                                                    <option value="1">In Stock</option>
                                                                     <option value="2">New</option>
                                                                     <option value="3">On Sale</option>
                                                                     <option value="4">Out Of Stock</option>
@@ -301,7 +301,7 @@
                                 <td><label for="status">Product Status</label></td>
                                 <td>
                                     <select name="status">
-                                        <option value="1">Normal</option>
+                                        <option value="1">In Stock</option>
                                         <option value="2">New</option>
                                         <option value="3">On Sale</option>
                                         <option value="4">Out Of Stock</option>

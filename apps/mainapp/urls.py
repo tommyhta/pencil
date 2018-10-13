@@ -20,11 +20,14 @@ urlpatterns = [
 
     
     url(r'^store$', views.store),
+    url(r'^store/cart$', views.cart),
     url(r'^store/searchstandard$', views.searchstandard),
     url(r'^store/searchxl$', views.searchxl),
     url(r'^store/searchall$', views.searchall),
     url(r'^store/searchgoldmixed$', views.searchgoldmixed),
     url(r'^store/searchaccessories$', views.searchaccessories),
+    url(r'^store/addToCart$', views.addToCart),
+    
 
 
     url(r'^user/(?P<id>\d+)$', views.user, name="user"),

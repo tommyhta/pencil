@@ -36,7 +36,7 @@
             display: inline-block;
             vertical-align: top;
             width: 20%;
-            height: 200px;
+
             border: 1px solid black;
             margin: 20px;
             padding: 20px;
@@ -64,6 +64,10 @@
         .fa-search{
             cursor: pointer;
         }
+        .fa-search:hover{
+            color: darkgray;
+        
+        }
         .inline{
             display: inline-block;
             vertical-align: top;
@@ -78,7 +82,19 @@
         .details{
             width: 55%;
         }
+        .cartbtn{
+            font-weight: 700;
+        }
+        .addCart{
+            width: 60%;
+        }
 
+        @media only screen and (min-width: 600px) and (max-width: 990px){
+            .prod{
+                width: 25%;
+            }
+        }
+        
         @media only screen and (max-width: 600px){
             .prod{
                 width: 90%;
@@ -88,6 +104,7 @@
             }
             
         }
+
     </style>
 </head>
 <body>
@@ -159,6 +176,11 @@
                     <img src="{% static 'mainapp/images/'%}{{product.image}}" alt="{{product.model}} image">
                 </div>
                 <p class="price">${{product.unit_price}}</p>
+                <form class="text-center" action="/store/addToCart" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="product" value="{{product.id}}">
+                    <button class="cartbtn btn btn-info btn-sm">Add to Cart</button>
+                </form>
             </div>
 
             <div class="modal fade" id="productDetail{{product.id}}">
@@ -185,6 +207,34 @@
             </div>  
             {% endfor %}
         </div>
+        <div class="modal fade" id="addedtoCart">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">The Item has been added to your cart</h5>
+                    <button class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Would you like to checkout or continue shopping?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Continue Shopping</button>
+                    <a href="/store/cart"><button class="btn btn-secondary">Go To Cart</button></a>
+                </div>
+                </div>
+            </div>
+        </div>
+        {% for message in messages %}
+            {% if 'addedtoCart' in message.tags %}
+                <script>
+                    $(function(){
+                        $('#addedtoCart').modal({show:true});
+                    });
+                </script> 
+            {% endif %}
+        {% endfor %}
     </div>
     
 </body>
