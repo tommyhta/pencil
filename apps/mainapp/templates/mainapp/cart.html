@@ -19,9 +19,12 @@
             width: 45%;    
         }
         .price{
-            width: 15%;
+            width: 10%;
         }
         .quantity{
+            width: 15%;
+        }
+        .itemtotal{
             width: 20%;
         }
         tbody tr td{
@@ -41,6 +44,22 @@
         .details{
             width: 70%;
         }
+        #changeQ input{
+            display: inline-block;
+            vertical-align: top;
+            width: 40%;
+            height: 25px;
+        }
+        .editbtn{
+            border: none;
+            vertical-align: top;
+            margin:0;
+            padding:0;
+        }
+        .editbtn:hover{
+            color: darkgray;
+        }
+
         @media only screen and (min-width: 600px) and (max-width: 990px){
           
         }
@@ -50,7 +69,7 @@
                 font-size: 14px;
             }
             .details p{
-                font-size: 12px;
+                display: none;
             }
             
         }
@@ -61,7 +80,7 @@
         {% include 'mainapp/navbar.html' %}
         <div class="body">
             <h2 class="text-center">Your Cart</h2>
-            {% if request.session.cart.count > 0 %}
+            {% if request.session.cart.counts != 0 %}
                 <table class="table mt-5">
                     <thead class="thead-dark">
                         <tr>
@@ -73,7 +92,7 @@
                     </thead>
                     <tbody>
                        {% for each in request.session.cart.order %}
-                            <tr>
+                            <tr id="product">
                                 <td>
                                     <div class="img inline">
                                         <img src="{% static 'mainapp/images/'%}{{each.image}}" alt="Product Image">
@@ -84,12 +103,37 @@
                                     </div>
                                 </td>
                                 <td>${{each.price}}</td>
-                                <td>{{each.quantity}}</td>
-                                <td>{{each.total}}</td>
+                                <td>
+                                    <form action="/store/cart/updatecart" method="post" id="changeQ">
+                                        {% csrf_token%}
+                                        <input type="hidden" name="product" value="{{each.model}}">
+                                        <input type="number" name="quantity" value="{{each.quantity}}">
+                                        <button class="editbtn"><i class="fas fa-pencil-alt"></i></button>
+                                    </form>
+                                </td>
+                                <td>
+                                    ${{each.total}}
+                                    <form action="/store/cart/deleteproduct" class="inline float-right" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="product" value="{{each.model}}">
+                                        <button class="editbtn"><i class="fas fa-trash-alt"></i></button>
+                                    </form>
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>
                 </table>
+                <hr>
+                <div class="row">
+                    <div class="col-lg-5 col-sm-0"></div>
+                    <div class="col-lg-3 col-sm-3">
+                        <h5>Order Total:</h5>
+                    </div>
+                    <div class="col-lg-3 col-sm-6 text-right">
+                        <h5>${{request.session.cart.sub_total}}</h5>
+                        <p>*No taxes are included in the total</p>
+                    </div>
+                </div>
             {% else %}
                 <h4 class="text-center text-secondary mt-5">Your Cart is Empty</h4>
             {% endif %}

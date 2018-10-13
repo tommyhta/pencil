@@ -11,7 +11,7 @@ import bcrypt
 def index(request):
     if 'cart' not in request.session:
         request.session['cart'] = {
-            "count" : 0,
+            "counts" : 0,
             "sub_total" : 0,
             "order" : []
         }
@@ -22,7 +22,7 @@ def index(request):
 def registration(request):
     if 'cart' not in request.session:
         request.session['cart'] = {
-            "count" : 0,
+            "counts" : 0,
             "sub_total" : 0,
             "order" : []
         }
@@ -33,7 +33,7 @@ def registration(request):
 def store(request):
     if 'cart' not in request.session:
         request.session['cart'] = {
-            "count" : 0,
+            "counts" : 0,
             "sub_total" : 0,
             "order" : []
         }
@@ -51,7 +51,7 @@ def store(request):
 def cart(request):
     if 'cart' not in request.session:
         request.session['cart'] = {
-            "count" : 0,
+            "counts" : 0,
             "sub_total" : 0,
             "order" : []
         }
@@ -470,14 +470,15 @@ def addCatToProduct(request):
 
 
 # ----------------------------------------STORE----------------------------------------
+
+# By utilizing session, user doesn't need to login in order to add to cart
 def addToCart(request):
     if request.method == "POST":
         request.session.modified = True
         product = Product.objects.get(id=request.POST['product'])
         for i in request.session['cart']['order']:
             if product.model == i['model']:
-                request.session['cart']['count']+=1
-                i['price']+=i['price']
+                request.session['cart']['counts']+=1
                 i['quantity']+=1
                 i['total']= i['quantity']*i['price']
                 i['total']=round(i['total'],2)
@@ -487,7 +488,7 @@ def addToCart(request):
                 return redirect("/store")
         else:
             price = float(product.unit_price)
-            request.session['cart']['count']+=1
+            request.session['cart']['counts']+=1
             request.session['cart']['sub_total']+=price
             request.session['cart']['sub_total'] = round(request.session['cart']['sub_total'],2)
             request.session['cart']['order'].append(
@@ -506,4 +507,34 @@ def addToCart(request):
         request.session.clear()
         return redirect("/breached")
 
+def deletefromCart(request):
+    if request.method == "POST":
+        request.session.modified = True
+        for i in range(len(request.session['cart']['order'])):
+            if request.session['cart']['order'][i]['model'] == request.POST['product']:
+                request.session['cart']['counts']-=request.session['cart']['order'][i]['quantity']
+                request.session['cart']['sub_total'] -= request.session['cart']['order'][i]['total']
+                request.session['cart']['sub_total'] = round(request.session['cart']['sub_total'],2)
+                request.session['cart']['order'].pop(i)
+                return redirect("/store/cart")
+    else:
+        request.session.clear()
+        return redirect("/breached")
+
+def updateCart(request):
+    if request.method == "POST":
+        request.session.modified = True
+        for i in request.session['cart']['order']:
+            if i['model'] == request.POST['product']:
+                request.session['cart']['counts']+= (int(request.POST['quantity'])-i['quantity'])
+                request.session['cart']['sub_total']+=((int(request.POST['quantity'])-i['quantity'])*i['price'])
+                request.session['cart']['sub_total']=round(request.session['cart']['sub_total'],2)
+                i['quantity'] = int(request.POST['quantity'])
+                i['total'] = i['quantity']*i['price']
+                i['total'] = round(i['total'],2)            
+                return redirect("/store/cart")
+
+    else:
+        request.session.clear()
+        return redirect("/breached")
 

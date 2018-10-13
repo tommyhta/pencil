@@ -28,6 +28,8 @@ urlpatterns = [
     url(r'^store/searchaccessories$', views.searchaccessories),
     url(r'^store/addToCart$', views.addToCart),
     
+    url(r'^store/cart/deleteproduct$', views.deletefromCart),
+    url(r'^store/cart/updatecart$', views.updateCart),
 
 
     url(r'^user/(?P<id>\d+)$', views.user, name="user"),

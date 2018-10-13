@@ -88,6 +88,10 @@
         .addCart{
             width: 60%;
         }
+        .out{
+            display: block;
+
+        }
 
         @media only screen and (min-width: 600px) and (max-width: 990px){
             .prod{
@@ -170,17 +174,27 @@
         <div class="products" id="products">
             {%  for product in products %}
             <div class="prod">
+             
                 <i class="fas fa-search float-right" data-toggle="modal" data-target="#productDetail{{product.id}}"></i>
                 <h6>{{product.model}}</h6>
                 <div class="thumb">
                     <img src="{% static 'mainapp/images/'%}{{product.image}}" alt="{{product.model}} image">
                 </div>
                 <p class="price">${{product.unit_price}}</p>
-                <form class="text-center" action="/store/addToCart" method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="product" value="{{product.id}}">
-                    <button class="cartbtn btn btn-info btn-sm">Add to Cart</button>
-                </form>
+                {% if product.status != 4 or product.quantity != 0 %}
+                <div>
+                    <form class="text-center" action="/store/addToCart" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="product" value="{{product.id}}">
+                        <button class="cartbtn btn btn-info btn-sm">Add to Cart</button>
+                    </form>
+
+                </div>
+                {% else %}
+                    <div class="text-center">
+                        <button class="cartbtn btn btn-info btn-sm disabled">Out of Stock</button>
+                    </div>
+                {% endif %}
             </div>
 
             <div class="modal fade" id="productDetail{{product.id}}">

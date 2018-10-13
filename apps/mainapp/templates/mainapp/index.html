@@ -183,7 +183,7 @@
             <div>
                 <a href="/store" class="btn btn-sm btn-primary">Store</a>
                 <a href="/store/cart">
-                    <i class="fas fa-shopping-cart"></i><span class="badge badge-light">{{request.session.cart.count}}</span>
+                    <i class="fas fa-shopping-cart"></i><span class="badge badge-light">{{request.session.cart.counts}}</span>
                 </a>
                 {% if 'userID' not in request.session %}
                 <a href="/registration"><i class="fas fa-user"></i></a>
