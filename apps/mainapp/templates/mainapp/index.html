@@ -101,15 +101,7 @@
             margin-top: 20px;
             text-align: center;
         }
-        .footer{
-            font-size: 12px;
-            color: gray;
-            margin: 0;
-        }
-        footer a{
-            color: black;
-            font-weight: 700;
-        }
+
         .active{
             font-weight: 700;
         }
@@ -136,7 +128,7 @@
             if(wScroll > $('.models').offset().top-700){
                 $('.faaade').addClass('comeoutt');
             }; 
-            if(wScroll > $('.bdtop').offset().top-900){
+            if(wScroll > $('.bdtop').offset().top-1100){
                 $('.fadeF').addClass('comeoutt');
                 console.log("hi")
             }
@@ -211,7 +203,7 @@
         </div>
         <div class="row features" >
             <div class="f1 col-lg-4 offset-lg-1 fadeF bdtop">
-                <p>New Graphite v2 made witht the finest mix for durability and flexibility.</p>
+                <p>New Graphite v2 made with the finest mix for durability and flexibility.</p>
             </div>
             <div class="f1 col-lg-4 offset-lg-2 fadeF bdtop">
                 <p>New Wood coming from the finest tree grown in the United State.</p>
@@ -259,12 +251,12 @@
             </div>
         </div>
         <footer>
-            <hr>
-            <span class="footnote">* Life expectency is based on usage</span>
-            <hr>
-            <a href="/"><img class="logo" src="{% static 'mainapp/images/penlogobg.png'%}" alt="Pencil logo"> Pencil</a>
-            <p class="footer text-center">Not Copyrighted at all | Disclaimer: This is a mocked up project to sell pencils that doesn't actually sell pencils</p>
-            <p class="footer text-center">This project was built in Python with Django, SQLite, Bootstraps, jQuery, Ajax, AWS EC2</p>
+                <hr>
+                <span class="footnote">* Life expectency is based on usage</span>
+                <hr>
+                <a href="/"><img class="logo" src="{% static 'mainapp/images/penlogobg.png'%}" alt="Pencil logo"> Pencil</a>
+                <p class="footer text-center">Not Copyrighted at all | Disclaimer: This is a mocked up project to sell pencils that doesn't actually sell pencils</p>
+                <p class="footer text-center">This project was built in Python with Django, SQLite, Bootstraps, jQuery, Ajax, AWS EC2</p>
         </footer>
     </div>
 </body>
