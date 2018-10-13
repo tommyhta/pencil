@@ -7,11 +7,20 @@
                     <img src="{% static 'mainapp/images/'%}{{product.image}}" alt="{{product.model}} image">
                 </div>
                 <p class="price">${{product.unit_price}}</p>
-                <form class="text-center" action="/store/addToCart" method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="product" value="{{product.id}}">
-                    <button class="cartbtn btn btn-info btn-sm">Add to Cart</button>
-                </form>
+                {% if product.status != 4 or product.quantity != 0 %}
+                <div>
+                    <form class="text-center" action="/store/addToCart" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="product" value="{{product.id}}">
+                        <button class="cartbtn btn btn-info btn-sm">Add to Cart</button>
+                    </form>
+
+                </div>
+                {% else %}
+                    <div class="text-center">
+                        <button class="cartbtn btn btn-info btn-sm disabled">Out of Stock</button>
+                    </div>
+                {% endif %}
             </div>
 
             <div class="modal fade" id="productDetail{{product.id}}">
