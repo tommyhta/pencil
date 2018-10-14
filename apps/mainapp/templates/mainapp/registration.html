@@ -7,19 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Pencil - Login and Registration</title>
     {% include 'mainapp/cdns.html' %}
-    <style>
-            .popover-body {
-                padding: 10px;
-                font-size: 12px;
-                margin-top: 10px;
-            }
-            .container{
-                margin-top: 80px;
-            }
-            .row{
-                height: 70vh;
-            }
-        </style>
+    <link rel="stylesheet" href="{% static 'mainapp/css/registrationPage.css' %}">
 </head>
 <body>
     {% include 'mainapp/navbar.html' %}
@@ -51,7 +39,7 @@
                                 <input type="text" class="form-control" name="last_name" placeholder="Last Name">
                             </div>
                             <div class="form-group">
-                                <label for="email">email:</label>
+                                <label for="email">Email Address:</label>
                                 {% for message in messages %}
                                     {% if 'email' in message.tags %}
                                         <span class="small text-danger ml-3 float-right ">{{message}}</span>
@@ -99,7 +87,7 @@
                         <form action="/login" method="post">
                             {% csrf_token %}
                             <div class="form-group">
-                                <label for="emaillogin">Email</label>
+                                <label for="emaillogin">Email:</label>
                                 {% for message in messages %}
                                     {% if 'log' in message.tags %}
                                         <span class="small text-danger ml-3 float-right ">{{message}}</span>
@@ -108,7 +96,7 @@
                                 <input type="text" name="emaillogin" class="form-control" placeholder="email">
                             </div>
                             <div class="form-group">
-                                <label for="key">Password</label>
+                                <label for="key">Password:</label>
                                 {% for message in messages %}
                                     {% if 'key' in message.tags %}
                                         <span class="small text-danger ml-3 float-right ">{{message}}</span>
@@ -127,9 +115,6 @@
                 </div>
             </div>
         </div>
-
     </div>
-<script>
-</script>
 </body>
 </html>

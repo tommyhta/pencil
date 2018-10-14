@@ -2,8 +2,11 @@ from __future__ import unicode_literals
 from django.db import models
 import re
 email_regex = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z._-]+\.[a-zA-Z]+$')
-# Create your models here.
+
+
 class UserManager(models.Manager):
+
+    # Validator for registration
     def validator(self,posted):
         error = {}
         if len(posted['first_name']) < 1:
@@ -116,7 +119,7 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-
+# not being used atm
 class OrderDetail(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)

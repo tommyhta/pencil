@@ -10,82 +10,8 @@
     {% include 'mainapp/cdns.html' %}
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <style>
-        div.addproduct{
-            margin-top: 50px;
-        }
-        td{
-            width: 150px;
-        }
-        input{
-            
-        }
-        textarea{
-            width: 170px;
-            resize: none;
-        }
-        /* .addbtn{
-            margin: 20px 0 0 280px;
-        } */
-        .thumb{
-            height: 70px;
-        }
-        .desc{
-            width: 300px;
-        }
-        .btn-sm{
-            height: 25px;
-            padding: 3px 5px;
-            font-size: 12px!important;
-            margin: 0;
-        }
-        div.space{
-            margin-top: 50px;
-            padding-top:50px;
-            height:50px;
-        }
-        .descCol{
-            overflow: hidden;
-            
-        }
-        .producttable{
-            height: 500px;
-            overflow: auto;
-        }
-        .inline{
-            display: inline-block;
-            vertical-align: top;
-            margin: 10px;
-        }
-        p{
-            margin: 0;
-        }
-        .cats{
-            font-size: 14px;
-            margin: 0;
-            line-height: 0.8;
-        }
-        .catlist{
-            margin: 20px 10px 10px 10px;
-
-        }
-        .inlineF{
-            display: inline-block;
-            vertical-align:middle;
-        }
-        .cat{
-            font-size: 14px;
-            margin: 0;
-        }
-    </style>
-
-    <script>
-    $(document).ready(function(){
-        $( function() {
-            $("#tabs").tabs();
-        } );
-    });
-    </script>
+    <link rel="stylesheet" href="{% static 'mainapp/css/staffPage.css' %}">
+    <script src="{% static 'mainapp/js/staffPage.js' %}"></script>
 </head>
 <body>
     <div class="container">
@@ -128,9 +54,7 @@
                                 {% for x in i.categories.all %}
                                     <span class="cats">{{x.name}}, </span>
                                 {% endfor %}
-
                                 <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#addCat{{i.id}}">Edit Category</button>
-
                                 <div class="modal fade" id="addCat{{i.id}}">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
@@ -175,7 +99,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </td>
                             <td> ${{i.unit_price}} </td>
                             <td> 
@@ -198,7 +121,6 @@
                             </td>
                             <td>
                                 <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#editProduct{{i.id}}">Edit</button>
-
                                 <div class="modal fade" id="editProduct{{i.id}}">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
@@ -242,13 +164,11 @@
                                                         </tr>
                                                     </table>                                                    
                                                     <button class="float-right btn btn-secondary">Update</button>                                                 
-                                                </form>
-                                                
+                                                </form>                                               
                                             </div>
                                         </div>
                                     </div>    
                                 </div>
-
                                 <button class="btn btn-dark btn-sm" data-toggle="modal" data-target="#deleteProduct{{i.id}}">Delete</button>
                                 <div class="modal fade" id="deleteProduct{{i.id}}">
                                     <div class="modal-dialog">
@@ -316,9 +236,7 @@
                             <tr>
                                 <td><label for="image">Image:</label></td>
                                 <td><input type="file" name="image" accept="image/*"></td>
-                            </tr>
-                         
-                            
+                            </tr>                         
                         </table>
                         <button class="addbtn btn btn-secondary">Submit</button>
                     </form>
@@ -348,13 +266,9 @@
                             {%  endfor %}
                         </ul>
                     </div>
-                </div>
-       
-
-            </div>
-               
+                </div>      
+            </div>             
         </div>
     </div>
-
 </body>
 </html>

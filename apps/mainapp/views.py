@@ -6,8 +6,7 @@ from . import handle_upload
 import bcrypt
 
 
-# Create your views here.
-
+# ----------------------------------------ALL RENDERING----------------------------------------
 def index(request):
     if 'cart' not in request.session:
         request.session['cart'] = {
@@ -132,6 +131,7 @@ def user(request,id):
             "user" : User.objects.get(id=id),
             }
             return render (request, "mainapp/user.html", context)
+# ----------------------------------------END RENDERING----------------------------------------
 
 # ----------------------------------------STORE SEARCHES----------------------------------------
 def searchstandard(request):
@@ -167,7 +167,6 @@ def searchaccessories(request):
         "products": Product.objects.filter(categories=cat)
     }
     return render (request, "mainapp/productsearch.html", context)
-
 
 
 # ----------------------------------------LOGIN AND REGISTRATION----------------------------------------

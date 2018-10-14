@@ -1,0 +1,62 @@
+.btn-sm{
+    height: 25px;
+    padding: 3px 5px;
+    font-size: 12px;
+    margin: 0;
+}
+a{
+    text-decoration: none!important;
+}
+.logo{
+    width: 30px;
+}
+button:focus{
+    outline:0;
+}
+.fa-sign-out-alt{
+    color: white;
+    font-size: 18px;
+    margin: 0 3px;
+}
+.fa-sign-out-alt:hover{
+    color: silver;
+}
+.fa-user{
+    color: white;
+    font-size: 18px;
+    margin: 0 3px;
+}
+.fa-user:hover{
+    color: silver;
+}
+.fa-shopping-cart{
+    color: white;
+    font-size: 17px;
+    margin: 0 3px;
+}
+.fa-shopping-cart:hover{
+    color: silver;
+}
+.badge{
+    font-size: 10px;
+    vertical-align: top;
+    margin-left: -3px;
+}
+.btn-primary{
+    font-weight: 700;
+}
+.bold{
+    font-weight: 700;
+}
+.footer{
+    font-size: 12px;
+    color: gray;
+    margin: 0;
+}
+.container{
+    min-height: 100%;
+}
+footer a{
+    color: black;
+    font-weight: 700;
+}

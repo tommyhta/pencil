@@ -7,109 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Pencil - Store</title>
     {% include 'mainapp/cdns.html' %}
-    <style>
-        *{
-            /* border: 1px dotted pink; */
-        }
-        .img{
-            margin-top: 57px;
-        }
-        .img img{
-            width: 100%;
-        }
-        .bold{
-            font-weight: 700;
-        }
-        .buttons{
-            text-align: center;
-            margin: 20px;
-        }
-        .buttons button{
-            font-weight: 900;
-            margin: 10px;
-        }
-        .products{
-            padding: 30px;
-            height:80vh;
-        }
-        .prod{
-            display: inline-block;
-            vertical-align: top;
-            width: 20%;
-
-            border: 1px solid black;
-            margin: 20px;
-            padding: 20px;
-            box-shadow: 2px 2px silver;
-            border-radius: 3px;
-        }
-        .prod h6{
-            text-align: center;
-        }
-        .thumb{
-            width: 50%;
-            height: 100px;
-            margin: 5px auto;
-            
-        }
-        .thumb img{
-            max-width:100%;
-            max-height:100%;
-            margin: auto;
-        }
-        .price{
-            font-size: 15px;
-            color: #616161;
-        }
-        .fa-search{
-            cursor: pointer;
-        }
-        .fa-search:hover{
-            color: darkgray;
-        
-        }
-        .inline{
-            display: inline-block;
-            vertical-align: top;
-    
-        }
-        .imgage{
-            width: 40%;
-        }
-        .imgage img{
-            width: 100%;
-        }
-        .details{
-            width: 55%;
-        }
-        .cartbtn{
-            font-weight: 700;
-        }
-        .addCart{
-            width: 60%;
-        }
-        .out{
-            display: block;
-
-        }
-
-        @media only screen and (min-width: 600px) and (max-width: 990px){
-            .prod{
-                width: 25%;
-            }
-        }
-        
-        @media only screen and (max-width: 600px){
-            .prod{
-                width: 90%;
-            }
-            .thumb{
-                height: 100px;
-            }
-            
-        }
-
-    </style>
+    <link rel="stylesheet" href="{% static 'mainapp/css/storePage.css' %}">
+    <script src="{% static 'mainapp/js/storePage.js' %}"></script>
 </head>
 <body>
     <div class="img">
@@ -124,57 +23,9 @@
             <button class="btn btn-secondary bold" id="searchgoldmixed">Gold Graphite</button>
             <button class="btn btn-secondary bold" id="searchaccessories">Accessories</button>
         </div>
-
-        <script>
-            $('#searchstandard').click(function(){
-   
-                $.ajax({
-                    url:'/store/searchstandard',
-                    success: function(serverResponse){
-                        $('#products').html(serverResponse)
-                    }
-                })
-            });
-
-            $('#searchall').click(function(){
-                $.ajax({
-                    url:'/store/searchall',
-                    success: function(serverResponse){
-                        $('#products').html(serverResponse)
-                    }
-                })
-            });
-            $('#searchxl').click(function(){
-                $.ajax({
-                    url:'/store/searchxl',
-                    success: function(serverResponse){
-                        $('#products').html(serverResponse)
-                    }
-                })
-            });
-            $('#searchgoldmixed').click(function(){
-                $.ajax({
-                    url:'/store/searchgoldmixed',
-                    success: function(serverResponse){
-                        $('#products').html(serverResponse)
-                    }
-                })
-            });
-            $('#searchaccessories').click(function(){
-                $.ajax({
-                    url:'/store/searchaccessories',
-                    success: function(serverResponse){
-                        $('#products').html(serverResponse)
-                    }
-                })
-            });
-
-        </script>
-
         <div class="products" id="products">
             {%  for product in products %}
-            <div class="prod">
-             
+            <div class="prod">  
                 <i class="fas fa-search float-right" data-toggle="modal" data-target="#productDetail{{product.id}}"></i>
                 <h6>{{product.model}}</h6>
                 <div class="thumb">
@@ -188,7 +39,6 @@
                         <input type="hidden" name="product" value="{{product.id}}">
                         <button class="cartbtn btn btn-info btn-sm">Add to Cart</button>
                     </form>
-
                 </div>
                 {% else %}
                     <div class="text-center">
@@ -196,7 +46,6 @@
                     </div>
                 {% endif %}
             </div>
-
             <div class="modal fade" id="productDetail{{product.id}}">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -242,14 +91,9 @@
         </div>
         {% for message in messages %}
             {% if 'addedtoCart' in message.tags %}
-                <script>
-                    $(function(){
-                        $('#addedtoCart').modal({show:true});
-                    });
-                </script> 
+                <script src="{% static 'mainapp/js/storeAddCart.js' %}"></script>
             {% endif %}
         {% endfor %}
     </div>
-    
 </body>
 </html>

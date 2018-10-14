@@ -7,54 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Pencil - {{user.first_name}} {{user.last_name}}</title>
     {% include 'mainapp/cdns.html' %}
-    <style>
-        div.profile{
-      
-            border: 1px solid black;
-            border-radius: 10px;
-  
-    
-            padding: 20px;
-        }
-       
-        h4{
-            margin-bottom: 20px;
-        }
-        p{
-            margin: 5px 5px 5px 50px;
-        }
-        div.button{
-            margin: 20px 5px 0 10px;
-        }
-        .space{
-            width: 150px;
-        }
-        .small{
-            font-size: 11px;
-        }
-        .mospace{
-            width: 200px;
-        }
-        .pw{
-            width: 200px;
-        }
-        .pwmodal td{
-            font-size:12px;
-            height: 25px;
-        }
-        .message{
-            height: 30px;
-            margin-top: 80px;
-            margin-bottom: 10px;
-        }
-        .subcontainer{
-            height: 70vh;
-        }
-    </style>
-    <script>
-    $(document).ready(function(){
-    });
-    </script>
+    <link rel="stylesheet" href="{% static 'mainapp/css/userPage.css' %}">  
 </head>
 <body>
     <div class="container">
@@ -117,11 +70,9 @@
                     <td>{{user.created_at}}</td>
                 </tr>
             </table>
-
             {% if user.id == request.session.userID %}
             <div class="button">
-                <button class="btn btn-secondary" data-toggle="modal" data-target="#changeinfo">Edit Info</button>
-                
+                <button class="btn btn-secondary" data-toggle="modal" data-target="#changeinfo">Edit Info</button>  
                 <div class="modal fade" id="changeinfo">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -249,9 +200,7 @@
                         </div>
                     </div>
                 </div>
-
                 <button class="btn btn-secondary" data-toggle="modal" data-target="#changepw">ChangePassword</button>
-
                 <div class="modal fade" id="changepw" >
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -262,7 +211,6 @@
                                 </button> 
                             </div>
                             <div class="modal-body">
-                                    <!-- <img width="250px" src="{% static 'mainapp/images/underConstruction.jpg' %}" alt="Under Construction"> -->
                                 <form action="/user/{{user.id}}/changepw" method="post">
                                     {% csrf_token %}
                                     <table class="pwmodal">
@@ -306,29 +254,18 @@
                         </div>
                     </div>
                 </div> 
-
                 {% for message in messages %}
                     {% if 'first_name' in message.tags or 'last_name' in message.tags or 'email' in message.tags %}
-                        <script>
-                            $(function(){
-                                $('#changeinfo').modal({show:true});
-                            });
-                        </script> 
+                        <script src="{% static 'mainapp/js/usePageInfo.js' %}"></script>
                     {% endif %}
                     {% if 'password' in message.tags or 'newPassword' in message.tags or 'confirm' in message.tags %}
-                        <script>
-                            $(function(){
-                                $('#changepw').modal({show:true});
-                            });
-                        </script>
+                        <script src="{% static 'mainapp/js/usePagePW.js' %}"></script>
                     {% endif %}
                 {% endfor %}
-   
             </div>
             {% endif %}
         </div>
         </div>
-
     </div>
 </body>
 </html>

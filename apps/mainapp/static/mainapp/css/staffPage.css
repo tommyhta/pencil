@@ -1,0 +1,62 @@
+div.addproduct{
+    margin-top: 50px;
+}
+td{
+    width: 150px;
+}
+
+textarea{
+    width: 170px;
+    resize: none;
+}
+
+.thumb{
+    height: 70px;
+}
+.desc{
+    width: 300px;
+}
+.btn-sm{
+    height: 25px;
+    padding: 3px 5px;
+    font-size: 12px!important;
+    margin: 0;
+}
+div.space{
+    margin-top: 50px;
+    padding-top:50px;
+    height:50px;
+}
+.descCol{
+    overflow: hidden;
+    
+}
+.producttable{
+    height: 500px;
+    overflow: auto;
+}
+.inline{
+    display: inline-block;
+    vertical-align: top;
+    margin: 10px;
+}
+p{
+    margin: 0;
+}
+.cats{
+    font-size: 14px;
+    margin: 0;
+    line-height: 0.8;
+}
+.catlist{
+    margin: 20px 10px 10px 10px;
+
+}
+.inlineF{
+    display: inline-block;
+    vertical-align:middle;
+}
+.cat{
+    font-size: 14px;
+    margin: 0;
+}

@@ -7,42 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Pencil - Admin Dashboard</title>
     {% include 'mainapp/cdns.html' %}
-    <style>
-        table{
-            width:90%!important;
-            margin: auto;
-        }
-        form{
-            display: inline-block;
-        }
-        #modalName{
-            margin-left: 100px;
-            font-weight: 700;
-        }
-        div.space{
-            margin-top: 100px;
-            height:50px;
-        }
-        .search{
-            margin: 20px;
-            
-        }
-        div.tablecontainer{
-            height: 300px;
-            overflow: scroll;
-        }
-        p{
-            margin: 5px;
-        }
-        .subcontainer{
-            height: 75%;
-        }
-
-    </style>
-    <script>
-    $(document).ready(function(){
-    });
-    </script>
+    <link rel="stylesheet" href="{% static 'mainapp/css/adminPage.css' %}">
+    <script src="{% static 'mainapp/js/adminPage.js' %}"></script>
 </head>
 <body>
     <div class="container">
@@ -64,18 +30,6 @@
                 {% csrf_token %}
                 <input id="searchName" class="form-control search" type="text" name="searchadmin" placeholder="Search">
             </form>
-            <script>
-                $('#searchName').keyup(function(){
-                    $.ajax({
-                        url: '/adminsearch',
-                        method: 'post',
-                        data: $(this).parent().serialize(),
-                        success: function(serverResponse){
-                            $('#table').html(serverResponse)
-                        }
-                    })
-                })          
-            </script>
             <table class="table table-hover">
                 <thead class="thead-dark">
                     <tr>
@@ -199,7 +153,6 @@
                 </tbody>
             </table>          
         </section>
-
 </div>
 </body>
 </html>

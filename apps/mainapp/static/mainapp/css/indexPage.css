@@ -1,0 +1,96 @@
+.buy{
+    font-weight: 800;
+    color: white;
+}
+div.intro{
+    text-align: center;
+    padding: 10px;
+}
+div.intro h2, h4{
+    margin: 0 auto 0;;
+    line-height: 1.2;
+    font-weight: 800;
+}
+div.intro h4{
+    margin-top: 80px;
+    margin-bottom: 20px;
+    color:#1F1F1F;
+}
+div.intro h2{
+    font-size: 50px;
+}
+div.img{
+    height:400px;
+    margin-top: 70px;
+}
+img#pencil_main{
+    margin-top: 50px; 
+    width: 400px;
+    /* transform: rotate(-15deg); */
+}
+
+div.bdtop{
+    border-top: 2px solid black;
+    height: 150px
+}
+div.f1 p{
+    font-size: 22px;
+}
+div.models{
+    text-align: center;
+}
+
+span.bold{
+    font-weight: 700;
+    font-size: 20px;
+}
+.footnote{
+    font-size:12px;
+}
+.capabilities{
+    text-align: center;
+    margin: 80px;
+    padding: 20px;
+}
+.capabilities h1{
+    font-weight: 700;
+    margin: 50px auto;
+
+}
+.faade{
+    opacity:0;
+    transform: translateY(30px);
+    transition: all 1.3s ease-in-out;
+}
+.fadeCap{
+    opacity:0;
+    transform: translateY(30px);
+    transition: all 1.3s ease-in-out;
+    font-weight: 700;
+}
+.comeout{
+    opacity:1;
+    transform:translateY(0px);
+}
+.faaade{
+    opacity:0;
+    transform: translateX(30px);
+    transition: all 1.3s ease-in-out;
+}
+.fadeF{
+    opacity:0;
+    transform: translateX(30px);
+    transition: all 1.3s ease-in-out;
+}
+.comeoutt{
+    opacity:1;
+    transform:translateX(0px);
+}
+.capabilities{
+    margin-top: 20px;
+    text-align: center;
+}
+
+.active{
+    font-weight: 700;
+}

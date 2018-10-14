@@ -7,74 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Pencil - Cart</title>
     {% include 'mainapp/cdns.html' %}
-    <style>
-        *{
-            /* border: 1px dotted pink; */
-        }
-        .body{
-            margin: 70px 0;
-            height: 100vh;
-        }
-        .product{
-            width: 45%;    
-        }
-        .price{
-            width: 10%;
-        }
-        .quantity{
-            width: 15%;
-        }
-        .itemtotal{
-            width: 20%;
-        }
-        tbody tr td{
-            height: 150px;
-        }
-        .inline{
-            display: inline-block;
-            vertical-align: top;
-        }
-        .img{
-            width: 20%;
-            max-height: 20%;
-        }
-        .img img{
-            width: 100%;
-        }
-        .details{
-            width: 70%;
-        }
-        #changeQ input{
-            display: inline-block;
-            vertical-align: top;
-            width: 40%;
-            height: 25px;
-        }
-        .editbtn{
-            border: none;
-            vertical-align: top;
-            margin:0;
-            padding:0;
-            background-color: transparent;
-        }
-        .editbtn:hover{
-            color: darkgray;
-        }
-
-        @media only screen and (min-width: 600px) and (max-width: 990px){
-          
-        }
-        
-        @media only screen and (max-width: 600px){
-            .details h5{
-                font-size: 14px;
-            }
-            .details p{
-                display: none;
-            }
-            
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'mainapp/css/cartPage.css' %}">
 </head>
 <body>
     <div class="container">
@@ -139,8 +72,6 @@
                 <h4 class="text-center text-secondary mt-5">Your Cart is Empty</h4>
             {% endif %}
         </div>
-
-    </div>
-    
+    </div> 
 </body>
 </html>

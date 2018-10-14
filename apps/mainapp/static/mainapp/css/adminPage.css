@@ -1,0 +1,29 @@
+table{
+    width:90%!important;
+    margin: auto;
+}
+form{
+    display: inline-block;
+}
+#modalName{
+    margin-left: 100px;
+    font-weight: 700;
+}
+div.space{
+    margin-top: 100px;
+    height:50px;
+}
+.search{
+    margin: 20px;
+    
+}
+div.tablecontainer{
+    height: 300px;
+    overflow: scroll;
+}
+p{
+    margin: 5px;
+}
+.subcontainer{
+    height: 75%;
+}
