@@ -1,7 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 from apps.mainapp.models import *
 from django.contrib import messages
-from django.core import serializers
 from . import handle_upload
 import bcrypt
 
