@@ -12,7 +12,7 @@
 <body>
     {% include 'mainapp/navbar.html' %}
     <div class="container">
-        <h1>Welcome!</h1>
+        <h1>Welcome! Please Login Or Register!</h1>
         <div class="row">   
             <div class="col-md-6">
                 <div class="card">
@@ -27,7 +27,7 @@
                                         <span class="small text-danger ml-3 float-right ">{{message}}</span>
                                     {% endif %}
                                 {% endfor %}
-                                <input type="text" class="form-control" name="first_name" placeholder="First Name">
+                                <input type="text" class="form-control" name="first_name" placeholder="First Name" value="{{request.session.regis_info.first_name}}">
                             </div>
                             <div class="form-group">
                                 <label for="last_name">Last Name:</label>
@@ -36,7 +36,7 @@
                                         <span class="small text-danger ml-3 float-right ">{{message}}</span>
                                     {% endif %}
                                 {% endfor %}
-                                <input type="text" class="form-control" name="last_name" placeholder="Last Name">
+                                <input type="text" class="form-control" name="last_name" placeholder="Last Name" value="{{request.session.regis_info.last_name}}">
                             </div>
                             <div class="form-group">
                                 <label for="email">Email Address:</label>
@@ -45,7 +45,7 @@
                                         <span class="small text-danger ml-3 float-right ">{{message}}</span>
                                     {% endif %}
                                 {% endfor %}
-                                <input type="text" class="form-control" name="email" placeholder="email">
+                                <input type="text" class="form-control" name="email" placeholder="email" value="{{request.session.regis_info.email}}"">
                             </div>
                             <div class="form-group">
                                 <label for="password">Password:</label>
@@ -54,12 +54,10 @@
                                         <span class="small text-danger ml-3 float-right ">{{message}}</span>
                                     {% endif %}
                                 {% endfor %}
-                                <input type="password" class="form-control" name="password" placeholder="Password" data-toggle="popover" data-trigger="key" data-placement="right" data-html="true"
+                                <input type="password" class="form-control" name="password" placeholder="Password" tabindex="0" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true"
                                 data-content="
                                 <ul>
-                                    <li>Password must be at least 8 characters</li>
-                                    <li>Password must contain 1 uppercase letter</li>
-                                    <li>Password must contain a number</li>
+                                    <li>Password must be at least 6 characters</li>
                                 </ul>
                                 ">
                             </div>

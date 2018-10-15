@@ -176,10 +176,16 @@ def register(request):
     if request.method == 'POST':
         error = User.objects.validator(request.POST)
         if len(error):
+            request.session['regis_info']={
+                "first_name": request.POST['first_name'],
+                "last_name": request.POST['last_name'],
+                "email": request.POST['email']
+            }
             for key,value in error.items():
                 messages.error(request, value, extra_tags=key)
             return redirect("reg")
         else:
+            request.session.pop('regis_info')
             pwhash = bcrypt.hashpw(request.POST['password'].encode('utf-8'), bcrypt.gensalt())
             User.objects.create(
                 first_name = request.POST['first_name'],
@@ -531,7 +537,6 @@ def updateCart(request):
                 i['total'] = i['quantity']*i['price']
                 i['total'] = round(i['total'],2)            
                 return redirect("/store/cart")
-
     else:
         request.session.clear()
         return redirect("/breached")

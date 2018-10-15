@@ -29,12 +29,12 @@ class UserManager(models.Manager):
             error['email'] = "Please use a different email."
         if len(posted['password']) < 1:
             error['password'] = "This field cannot be empty."
-        elif len(posted['password']) < 8:
-            error['password'] = "Password must be at least 8 characters."
-        elif not re.search(r'[A-Z]+', posted['password']):
-            error['password'] = "Password must contain an uppercase letter."
-        elif not re.search(r'[0-9]+', posted['password']):
-            error['password'] = "Password must contain a number."
+        elif len(posted['password']) < 6:
+            error['password'] = "Password must be at least 6 characters."
+        # elif not re.search(r'[A-Z]+', posted['password']):
+        #     error['password'] = "Password must contain an uppercase letter."
+        # elif not re.search(r'[0-9]+', posted['password']):
+        #     error['password'] = "Password must contain a number."
         if len(posted['confirm']) < 1:
             error['confirm'] = "This field cannot be empty."
         elif posted['confirm'] != posted['password']:
@@ -73,12 +73,12 @@ class UserManager(models.Manager):
         error = {}
         if len(posted['newPassword']) < 1:
             error['newPassword'] = "This field cannot be empty."
-        elif len(posted['newPassword']) < 8:
-            error['newPassword'] = "Password must be at least 8 characters."
-        elif not re.search(r'[A-Z]+', posted['newPassword']):
-            error['newPassword'] = "Password must contain an uppercase letter."
-        elif not re.search(r'[0-9]+', posted['newPassword']):
-            error['newPassword'] = "Password must contain a number."
+        elif len(posted['newPassword']) < 6:
+            error['newPassword'] = "Password must be at least 6 characters."
+        # elif not re.search(r'[A-Z]+', posted['newPassword']):
+        #     error['newPassword'] = "Password must contain an uppercase letter."
+        # elif not re.search(r'[0-9]+', posted['newPassword']):
+        #     error['newPassword'] = "Password must contain a number."
         if len(posted['confirm']) < 1:
             error['confirm'] = "This field cannot be empty."
         elif posted['confirm'] != posted['newPassword']:

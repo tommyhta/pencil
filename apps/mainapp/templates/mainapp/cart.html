@@ -8,6 +8,7 @@
     <title>Pencil - Cart</title>
     {% include 'mainapp/cdns.html' %}
     <link rel="stylesheet" href="{% static 'mainapp/css/cartPage.css' %}">
+    <script src="{% static 'mainapp/js/cartPage.js' %}"></script>
 </head>
 <body>
     <div class="container">
@@ -41,7 +42,7 @@
                                     <form action="/store/cart/updatecart" method="post" id="changeQ">
                                         {% csrf_token%}
                                         <input type="hidden" name="product" value="{{each.model}}">
-                                        <input type="number" name="quantity" value="{{each.quantity}}">
+                                        <input class="quantityInput" type="number" name="quantity" value="{{each.quantity}}">
                                         <button class="editbtn"><i class="fas fa-pencil-alt"></i></button>
                                     </form>
                                 </td>
