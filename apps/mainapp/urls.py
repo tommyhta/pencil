@@ -45,5 +45,4 @@ urlpatterns = [
     url(r'^staff/deleteCategory$', views.deleteCategory),
     url(r'^staff/removeCat$', views.removeCat),
     url(r'^staff/addcategory$', views.addCatToProduct),
-
 ]

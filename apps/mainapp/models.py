@@ -6,7 +6,7 @@ email_regex = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z._-]+\.[a-zA-Z]+$')
 
 class UserManager(models.Manager):
 
-    # Validator for registration
+    # Validation for registration
     def validator(self,posted):
         error = {}
         if len(posted['first_name']) < 1:
@@ -41,6 +41,7 @@ class UserManager(models.Manager):
             error['confirm'] = "Password confirmation must match password."
         return error
 
+    #Validation for login
     def loginValidator(self,posted):
         error = {}
         if len(posted['emaillogin']) < 1:
@@ -48,7 +49,8 @@ class UserManager(models.Manager):
         if len(posted['key']) < 1:
             error['key'] = "Please enter your password."
         return error            
-
+    
+    #Validation for updating info, because user may update basic info and password seperately
     def updateInfoValidator(self, posted):
         error = {}
         if len(posted['first_name']) < 1:
@@ -85,7 +87,7 @@ class UserManager(models.Manager):
             error['confirm'] = "Password confirmation must match password."
         return error
 
-
+#Users are not asked for address information at registration.  This was added to be used for shipping information once implemented
 class User(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
@@ -119,7 +121,7 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-# not being used atm
+#Not currently implemented
 class OrderDetail(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
