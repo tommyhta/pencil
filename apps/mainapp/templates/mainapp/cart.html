@@ -67,8 +67,10 @@
                     <div class="col-lg-3 col-sm-6 text-right">
                         <h5>${{request.session.cart.sub_total}}</h5>
                         <p>*No taxes are included in the total</p>
+                        <button disabled >Check Out</button>
                     </div>
                 </div>
+
             {% else %}
                 <h4 class="text-center text-secondary mt-5">Your Cart is Empty</h4>
             {% endif %}
