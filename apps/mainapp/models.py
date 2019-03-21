@@ -89,11 +89,11 @@ class UserManager(models.Manager):
 
 #Users are not asked for address information at registration.  This was added to be used for shipping information once implemented
 class User(models.Model):
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
+    first_name = models.CharField(max_length=50, default="")
+    last_name = models.CharField(max_length=50, default="")
     email = models.CharField(max_length=100)
-    user_level = models.IntegerField()
-    password_hash = models.CharField(max_length=255)
+    user_level = models.IntegerField(default=1)
+    password_hash = models.CharField(max_length=255, default="")
     address_line_1 = models.CharField(max_length=100, default="")
     address_line_2 = models.CharField(max_length=100, default="")
     city = models.CharField(max_length=50, default="")
@@ -117,18 +117,23 @@ class Product(models.Model):
     quantity = models.IntegerField()
     quantity_sold = models.IntegerField(default=0)
     categories = models.ManyToManyField(Category, related_name="products")
-    orders = models.ManyToManyField(User, through="OrderDetail", related_name="orders")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 #Not currently implemented
-class OrderDetail(models.Model):
+class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity_purchased = models.IntegerField()
+    total = models.DecimalField(max_digits=8, decimal_places=2)
     payment_status = models.BooleanField(default=False)
     order_status = models.IntegerField()
-    total = models.DecimalField(max_digits=8, decimal_places=2)
+
+class Product_Ordered(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    product = models.ManyToManyField(Product, related_name="Ordered_Product")
+    price_purchased = models.DecimalField(max_digits=8, decimal_places=2)
+    quantity_purchased = models.IntegerField()
+    price_total = models.DecimalField(max_digits=8, decimal_places=2)
+
 
 
 

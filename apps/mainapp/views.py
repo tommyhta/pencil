@@ -43,7 +43,6 @@ def store(request):
         context = {
             "products": Product.objects.all()
         }
-        print("CART:", request.session['cart'])
         return render(request,"mainapp/home.html", context)
 
 def cart(request):
@@ -56,6 +55,18 @@ def cart(request):
         return render(request,"mainapp/cart.html")
     else:
         return render(request,"mainapp/cart.html")
+
+def checkout(request):
+    if 'cart' not in request.session:
+        request.session['cart'] = {
+            "counts" : 0,
+            "sub_total" : 0,
+            "order" : []
+        }
+        return render(request,"mainapp/checkout.html")
+    else:
+        print("this is cart", request.session["cart"]['order'])
+        return render(request,"mainapp/checkout.html")
 
 def breached(request):
     print("**********SECURITY BREACHED************")
@@ -540,4 +551,6 @@ def updateCart(request):
     else:
         request.session.clear()
         return redirect("/breached")
+
+
 
