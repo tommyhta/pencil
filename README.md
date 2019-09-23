@@ -6,4 +6,4 @@ A mockup project of an company website that also sells products.  The site also 
   * Every user may update their own information including changing password with appropriate validation
   * User may add items to cart, update and delete items from cart
 
-This project is deployed on AWS EC2 at: http://34.229.251.198/
+~~This project is deployed on AWS EC2 at: http://34.229.251.198/~~
